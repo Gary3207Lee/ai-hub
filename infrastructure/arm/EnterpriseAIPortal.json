@@ -1607,6 +1607,11 @@
                                         "label": "AI Assistant for videos (Preview)",
                                         "description": "Extract key insights and identify scenes suited for short video clip generation for social media, using Azure Video Indexer and Azure OpenAI Assistant (Preview) APIs",
                                         "value": "video"
+                                    },
+                                    {
+                                        "label": "eRetail Search",
+                                        "description": "Search the eRetail :)",
+                                        "value": "ecomm"
                                     }
                                 ],
                                 "required": true
