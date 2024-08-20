@@ -1646,6 +1646,16 @@
                             }
                         },
                         {
+                            "name": "eRetail search architecture",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
+                            "options": {
+                                "icon": "None",
+                                "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/azure-eRetail-architecture.png'>"
+                            }
+                        },
+
+                        {
                             "name": "aiModelAddInfo",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]",
