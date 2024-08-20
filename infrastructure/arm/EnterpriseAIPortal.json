@@ -1651,7 +1651,7 @@
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
                             "options": {
                                 "icon": "None",
-                                "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/azure-eRetail-architecture.png'>"
+                                "text": "<b> </b><img src='https://raw.githubusercontent.com/aarunraaj/ai-hub/main/docs/azure-eRetail-architecture.png'>"
                             }
                         },
 
