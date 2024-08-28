@@ -1646,7 +1646,7 @@
                             }
                         },
                         {
-                            "name": "eRetailsearcharchitecture",
+                            "name": "eRetailsearchArchitecture",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
                             "options": {
@@ -1755,13 +1755,6 @@
                             "label": "Required services for the 'On Your Data' use case",
                             "elements": [],
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
-                        },
-                        {
-                            "name": "aiAdderetailsearchSection",
-                            "type": "Microsoft.Common.Section",
-                            "label": "Required services for the 'eRetail Search' use case",
-                            "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
                         },
                         {
                             "name": "aiDedicatedInfo",
@@ -2959,9 +2952,6 @@
                             },
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         }
-
-
-
                     ]
                 }
             ]
