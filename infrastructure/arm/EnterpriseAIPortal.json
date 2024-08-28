@@ -2608,7 +2608,7 @@
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         },
                         {
-                            "name": "cosmosSection",
+                            "name": "cosmosSection1",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Cosmos DB Account",
                             "elements": [],
