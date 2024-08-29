@@ -2357,7 +2357,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Required services for the selected use case",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), (equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')))]"
                         },
                         {
                             "name": "aiDocSection",
