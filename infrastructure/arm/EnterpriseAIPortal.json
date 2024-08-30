@@ -2600,7 +2600,7 @@
                         {
                             "name": "cosmosInfo",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]",
                             "options": {
                                 "icon": "None",
                                 "text": "Azure Cosmos DB is a globally distributed, multi-model database service and offered by Microsoft. It is designed to provide high availability, scalability, and low-latency access to data for modern applications. Cosmos DB is used to persist prompt results as part of the index pipelines provided by Azure Data Factory.",
@@ -2615,7 +2615,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), and(not(equals(steps('basics').aiIntention, 'Multiple'))))]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), and(not(equals(steps('basics').aiIntention, 'Multiple'))))]"
                         },
                         {
                             "name": "cosmosDisableNetworkAccess",
