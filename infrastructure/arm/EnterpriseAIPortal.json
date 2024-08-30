@@ -2615,7 +2615,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), and(not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "cosmosDisableNetworkAccess",
@@ -2641,7 +2641,7 @@
                         {
                             "name": "cosmosNetworkingInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))))]",
                             "options": {
                                 "icon": "warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Cosmos DB. Ensure you have connectivity to the other services you are creating."
