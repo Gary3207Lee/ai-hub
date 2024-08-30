@@ -3571,7 +3571,7 @@
                 "ecommdfSystemIdentity": "[steps('aiAuxiliarySettings').ecommdfSystemIdentity]",
                 "ecommdfMonCreation": "[steps('aiAuxiliarySettings').ecommdfMonCreation]",
 
-                "acaacaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaacaDisableNetworkAccess]",
+                "acaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaDisableNetworkAccess]",
                 "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
                 "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
