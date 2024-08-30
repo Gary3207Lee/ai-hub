@@ -2668,7 +2668,7 @@
 									"location": "all"
 								}
 							},
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')))]"
 						},
 						{
 							"name": "cosmosSubnets",
