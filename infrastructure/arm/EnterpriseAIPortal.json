@@ -1646,6 +1646,16 @@
                             }
                         },
                         {
+                            "name": "eRetailsearchArchitecture",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
+                            "options": {
+                                "icon": "None",
+                                "text": "<b> </b><img src='https://raw.githubusercontent.com/aarunraaj/ai-hub/main/docs/azure-eRetail-architecture.png'>"
+                            }
+                        },
+
+                        {
                             "name": "aiModelAddInfo",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]",
@@ -2588,19 +2598,19 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Required services for the selected use case",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         },
                         {
                             "name": "cosmosSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Cosmos DB Account",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         },
                         {
                             "name": "cosmosInfo",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
                             "options": {
                                 "icon": "None",
                                 "text": "Azure Cosmos DB is a globally distributed, multi-model database service and offered by Microsoft. It is designed to provide high availability, scalability, and low-latency access to data for modern applications. Cosmos DB is used to persist prompt results as part of the index pipelines provided by Azure Data Factory.",
@@ -2615,7 +2625,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), (not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "cosmosDisableNetworkAccess",
@@ -2636,12 +2646,12 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), (not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "cosmosNetworkingInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))))]",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
                                 "icon": "warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Cosmos DB. Ensure you have connectivity to the other services you are creating."
