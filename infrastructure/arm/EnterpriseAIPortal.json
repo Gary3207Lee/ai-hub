@@ -2669,7 +2669,7 @@
 								}
 							},
                             "visible": "[or(and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')))]"
-						},
+						}, 
 						{
 							"name": "cosmosSubnets",
 							"type": "Microsoft.Solutions.ArmApiControl",
@@ -3033,7 +3033,7 @@
 								"allowedValues": "[map(steps('aiAuxiliarySettings').acaSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
 								"required": true
 							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')))]"
+                            "visible": true
 						},
                         {  
                             "name": "acaSelectedVnetDetails",  
