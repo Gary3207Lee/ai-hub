@@ -2951,6 +2951,521 @@
                                 "required": true
                             },
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
+                        },
+                        {
+                            "name": "aiAddServicesSectioneEomm",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Required services for the selected use case",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommcosmosSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Cosmos DB Account",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommcosmosInfo",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
+                            "options": {
+                                "icon": "None",
+                                "text": "Azure Cosmos DB is a globally distributed, multi-model database service and offered by Microsoft. It is designed to provide high availability, scalability, and low-latency access to data for modern applications. Cosmos DB is used to persist prompt results as part of the index pipelines provided by Azure Data Factory.",
+                                "link": {
+                                    "label": "Learn more",
+                                    "uri": "https://learn.microsoft.com/azure/cosmos-db/introduction"
+                                }
+                            }
+                        },
+                        {
+                            "name": "ecommcosmosNetworkSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Network Settings",
+                            "elements": [],
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "ecommcosmosDisableNetworkAccess",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Disable Public Network Access",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "ecommcosmosNetworkingInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommcosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Cosmos DB. Ensure you have connectivity to the other services you are creating."
+                            }
+                        },
+                        {
+                            "name": "ecommcosmosVnetSelector",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "label": "Select an existing Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "all"
+                                }
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "ecommcosmosSubnets",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "GET",
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').ecommcosmosVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').ecommcosmosVnetSelector.name,'/subnets?api-version=2022-01-01')]"
+                            }
+                        },
+                        {
+                            "name": "ecommcosmosSubnetList",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Select an existing Subnet",
+                            "filter": true,
+                            "constraints": {
+                                "allowedValues": "[map(steps('aiAuxiliarySettings').ecommcosmosSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommcosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {  
+                            "name": "ecommcosmosSelectedVnetDetails",  
+                            "type": "Microsoft.Solutions.ArmApiControl",  
+                            "request": {  
+                                "method": "GET",  
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').ecommcosmosVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').ecommcosmosVnetSelector.name, '?api-version=2022-01-01')]"  
+                            }  
+                        },
+                        {
+                            "name": "ecommcosmosNetworkingRegionOutputInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommcosmosDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').ecommcosmosSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "Note you are creating the Private Endpoint into a different Azure Region then Cosmos DB. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
+                            }
+                        },
+                        {
+                            "name": "ecommcosmosAuthzSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Authorization Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommcosmosRbacAuthz",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Azure RBAC authorization",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No, use local authorization with API key",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommcosmosSystemIdentity",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Managed Identity (System-assigned) for Cosmos DB",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommcosmosMonSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Monitor Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommcosmosMonCreation",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Diagnostic Settings for logging and threat detection",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "aiAddServicesSectionEcomm",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Required services for the selected use case",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommdfSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Data Factory",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommdfInfo",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
+                            "options": {
+                                "icon": "None",
+                                "text": "Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and orchestrate data pipelines for moving and transforming data between different data stores. In this setup Data Factory will provide pipelines for index creation in Azure AI Search for RAG based use cases.",
+                                "link": {
+                                    "label": "Learn more",
+                                    "uri": "https://learn.microsoft.com/azure/data-factory/introduction"
+                                }
+                            }
+                        },
+                        {
+                            "name": "ecommdfNetworkSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Network Settings",
+                            "elements": [],
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "ecommdfDisableNetworkAccess",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Disable Public Network Access",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "ecommdfNetworkingInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommdfDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
+                            }
+                        },
+                        {
+                            "name": "ecommdfVnetSelector",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "label": "Select an existing Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "all"
+                                }
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommdfDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "ecommdfSubnets",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "GET",
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').ecommdfVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').ecommdfVnetSelector.name,'/subnets?api-version=2022-01-01')]"
+                            }
+                        },
+                        {
+                            "name": "ecommdfSubnetList",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Select an existing Subnet",
+                            "filter": true,
+                            "constraints": {
+                                "allowedValues": "[map(steps('aiAuxiliarySettings').ecommdfSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommdfDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {  
+                            "name": "ecommdfSelectedVnetDetails",  
+                            "type": "Microsoft.Solutions.ArmApiControl",  
+                            "request": {  
+                                "method": "GET",  
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').ecommdfVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').ecommdfVnetSelector.name, '?api-version=2022-01-01')]"  
+                            }  
+                        },
+                        {
+                            "name": "ecommdfNetworkingRegionOutputInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').ecommdfDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').ecommdfSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
+                            }
+                        },
+                        {
+                            "name": "ecommdfAuthzSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Authorization Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommdfSystemIdentity",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Managed Identity (System-assigned) for Data Factory",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommdfMonSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Monitor Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "ecommdfMonCreation",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Diagnostic Settings for logging and threat detection",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "aiAddServicesSectioneComm",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Required services for the selected use case",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "acaSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Container Apps",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
+                        {
+                            "name": "acaNetworkSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Network Settings",
+                            "elements": [],
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+                        {
+                            "name": "acaDisableNetworkAccess",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Disable Public Network Access",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+                        {
+                            "name": "acaNetworkingInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
+                            }
+                        },
+                        {
+                            "name": "acaVnetSelector",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "label": "Select an existing Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "all"
+                                }
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+                        {
+                            "name": "acaSubnets",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "GET",
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaVnetSelector.name,'/subnets?api-version=2022-01-01')]"
+                            }
+                        },
+                        {
+                            "name": "acaSubnetList",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Select an existing Subnet",
+                            "filter": true,
+                            "constraints": {
+                                "allowedValues": "[map(steps('aiAuxiliarySettings').acaSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')))]"
+                        },
+                        {  
+                            "name": "acaSelectedVnetDetails",  
+                            "type": "Microsoft.Solutions.ArmApiControl",  
+                            "request": {  
+                                "method": "GET",  
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaVnetSelector.name, '?api-version=2022-01-01')]"  
+                            }  
+                        },
+                        {
+                            "name": "acaNetworkingRegionOutputInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').acaSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
+                            }
+                        },
+                        {
+                            "name": "acaAuthzSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Authorization Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+                        {
+                            "name": "acaSystemIdentity",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Managed Identity (System-assigned) for Data Factory",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+                        {
+                            "name": "acaMonSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Monitor Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+                        {
+                            "name": "acaMonCreation",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Diagnostic Settings for logging and threat detection",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
                         }
                     ]
                 }
@@ -3043,6 +3558,25 @@
                 "dfSubnetId": "[steps('aiAuxiliarySettings').dfSubnetList]",
                 "dfSystemIdentity": "[steps('aiAuxiliarySettings').dfSystemIdentity]",
                 "dfMonCreation": "[steps('aiAuxiliarySettings').dfMonCreation]",
+
+                "ecommcosmosDbDisableNetworkAccess": "[steps('aiAuxiliarySettings').ecommcosmosDisableNetworkAccess]",
+                "ecommcosmosDbRbacAuthz": "[steps('aiAuxiliarySettings').ecommcosmosRbacAuthz]",
+                "ecommcosmosDbNwLocation": "[steps('aiAuxiliarySettings').ecommcosmosSelectedVnetDetails.location]",
+                "ecommcosmosDbSubnetId": "[steps('aiAuxiliarySettings').ecommcosmosSubnetList]",
+                "ecommcosmosDbSystemIdentity": "[steps('aiAuxiliarySettings').ecommcosmosSystemIdentity]",
+                "ecommcosmosDbMonCreation": "[steps('aiAuxiliarySettings').ecommcosmosMonCreation]",
+                "ecommdfDisableNetworkAccess": "[steps('aiAuxiliarySettings').ecommdfDisableNetworkAccess]",
+                "ecommdfNwLocation": "[steps('aiAuxiliarySettings').ecommdfSelectedVnetDetails.location]",
+                "ecommdfSubnetId": "[steps('aiAuxiliarySettings').ecommdfSubnetList]",
+                "ecommdfSystemIdentity": "[steps('aiAuxiliarySettings').ecommdfSystemIdentity]",
+                "ecommdfMonCreation": "[steps('aiAuxiliarySettings').ecommdfMonCreation]",
+
+                "acaacaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaacaDisableNetworkAccess]",
+                "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
+                "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
+                "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
+                "acabMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]",
+
                 "videoSystemIdentity": "[steps('aiAuxiliarySettings').aiVideoIndexerSystemIdentity]",
                 "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]"
             },
