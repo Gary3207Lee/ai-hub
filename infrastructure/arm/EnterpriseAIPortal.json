@@ -2598,14 +2598,14 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Required services for the selected use case",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
                         },
                         {
                             "name": "cosmosSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Cosmos DB Account",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
                         },
                         {
                             "name": "cosmosInfo",
@@ -2625,7 +2625,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "cosmosDisableNetworkAccess",
