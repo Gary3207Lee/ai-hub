@@ -2615,7 +2615,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), and(not(equals(steps('basics').aiIntention, 'Multiple'))))]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), and(not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "cosmosDisableNetworkAccess",
@@ -2636,7 +2636,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), and(not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "cosmosNetworkingInfo",
