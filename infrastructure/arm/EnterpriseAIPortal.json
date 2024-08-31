@@ -2965,7 +2965,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "acaDisableNetworkAccess",
@@ -2986,12 +2986,12 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "acaNetworkingInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
                                 "icon": "warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
