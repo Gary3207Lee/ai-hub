@@ -80,7 +80,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "storage-deployment",
+            "name": "aca-deployment",
             "resourceGroup": "[parameters('rgName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
@@ -103,7 +103,7 @@
                                 "destination": "log-analytics",
                                 "logAnalyticsConfiguration": {
                                   "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', parameters('azMonWorkspaceName'))).customerId]",
-                                  "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('azMonWorkspaceName'))).primarySharedKey]"
+                                  "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('azMonWorkspaceName')), '2023-09-01').primarySharedKey]"
                                 }
                               },
                               "workloadProfiles": [
