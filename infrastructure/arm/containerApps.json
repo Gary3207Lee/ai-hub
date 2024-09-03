@@ -73,7 +73,8 @@
     },
     "variables": {
         "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
-        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]"
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
     },
     "resources": [
         {
@@ -102,7 +103,7 @@
                             "condition": "[and(equals(parameters('acaDisableNetworkAccess'), 'Yes'), not(empty(parameters('acaSubnetId'))), equals(parameters('acaZone'), 'Enabled'))]",
                             "type": "Microsoft.App/managedEnvironments",
                             "apiVersion": "2024-03-01",
-                            "name": "[variables('containerAppEnvironmentName')]",
+                            "name": "[variables('name-compliant-acame')]",
                             "location": "[parameters('location')]",
                             "properties": {
                               "appLogsConfiguration": {
@@ -126,7 +127,37 @@
                             "dependsOn": [
                               "[resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon'))]"
                             ]
-                          }
+                        },
+                        {
+                            "type": "Microsoft.App/containerapps",
+                            "apiVersion": "2024-02-02-preview",
+                            "name": "[parameters('name-compliant-aca')]",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.App/managedEnvironments/', parameters('name-compliant-acame'))]"
+                            ],
+                            "tags": {
+                                "Env": "Demo"
+                            },
+                            "kind": "containerapps",
+                            "properties": {
+                                "environmentId": "[resourceId('Microsoft.App/managedEnvironments', variables('name-compliant-acame'))]",
+                                "configuration": {
+                                    "secrets": "[parameters('secrets').arrayValue]",
+                                    "registries": "[parameters('registries')]",
+                                    "activeRevisionsMode": "Single",
+                                    "ingress": "[parameters('ingress')]"
+                                },
+                                "template": {
+                                    "containers": "[parameters('containers')]",
+                                    "scale": {
+                                        "minReplicas": 1,
+                                        "maxReplicas": 3
+                                    }
+                                },
+                                "workloadProfileName": "Consumption"
+                            }
+                        }
                     ]
                 }
             }

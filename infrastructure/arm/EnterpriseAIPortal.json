@@ -3056,7 +3056,7 @@
                         {
                             "name": "acaSystemIdentity",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Enable Managed Identity (System-assigned) for Data Factory",
+                            "label": "Enable Managed Identity (System-assigned) for Container Apps",
                             "defaultValue": "Yes (recommended)",
                             "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
                             "constraints": {
@@ -3068,6 +3068,28 @@
                                     {
                                         "label": "No",
                                         "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                        },
+
+                        {
+                            "name": "acaZone",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Zone redundancy deployment for Container Apps",
+                            "defaultValue": "Enabled (recommended)",
+                            "toolTip": "When enabled Azure Container Apps will be deployed across availability zone.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Enabled (recommended)",
+                                        "value": "Enabled"
+                                    },
+                                    {
+                                        "label": "Disabled",
+                                        "value": "Disabled"
                                     }
                                 ],
                                 "required": true
@@ -3202,6 +3224,7 @@
                 "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
                 "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
+                "acaZone": "[steps('aiAuxiliarySettings').acaZone]",
                 "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]"
             },
             "kind": "Subscription",
