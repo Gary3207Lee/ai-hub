@@ -3196,7 +3196,13 @@
                 "dfSystemIdentity": "[steps('aiAuxiliarySettings').dfSystemIdentity]",
                 "dfMonCreation": "[steps('aiAuxiliarySettings').dfMonCreation]",
                 "videoSystemIdentity": "[steps('aiAuxiliarySettings').aiVideoIndexerSystemIdentity]",
-                "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]"
+                "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]",
+
+                "acaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaDisableNetworkAccess]",
+                "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
+                "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
+                "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
+                "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').resourceScope.location.name]",
