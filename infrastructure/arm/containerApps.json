@@ -102,8 +102,8 @@
                               "appLogsConfiguration": {
                                 "destination": "log-analytics",
                                 "logAnalyticsConfiguration": {
-                                  "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', parameters('rgName'), parameters('azMonWorkspaceName')), '2023-09-01').customerId]",
-                                  "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('rgName'), parameters('azMonWorkspaceName')), '2023-09-01').primarySharedKey]"
+                                  "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2023-09-01').customerId]",
+                                  "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2023-09-01').primarySharedKey]"
                                 }
                               },
                               "workloadProfiles": [
