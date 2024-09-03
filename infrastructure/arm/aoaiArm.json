@@ -682,7 +682,7 @@
         },
         "acaZone":{
             "type": "string",
-            "defaultValue": "disabled",
+            "defaultValue": "Disabled",
             "allowedValues": [
                 "Enabled",
                 "Disabled"
