@@ -649,7 +649,53 @@
         "docLocation": {
             "type": "string",
             "defaultValue": "[parameters('location')]"
+        },
+
+
+        "acaSubnetId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "acaDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "acaMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "acaZone":{
+            "type": "string",
+            "defaultValue": "diabled",
+            "allowedValues": [
+                "Enabled",
+                "Disabled"
+            ],
+            "metadata": {
+                "description": "ACA zone redundancy setup"
+            }
         }
+
+
+
+
+
     },
     "variables": {
         "templateUris": {
@@ -672,6 +718,7 @@
             "azureApimTemplateUri": "[uri(deployment().properties.templateLink.uri, 'apimPublic.json')]",
             "aiSampleAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'aiSampleApp.json')]",
             "cosmosDbTemplateUri": "[uri(deployment().properties.templateLink.uri, 'cosmosDb.json')]",
+            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]",
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]"
@@ -729,6 +776,7 @@
             "apimDeploymentName": "[take(concat(parameters('prefix'), '-apim-', parameters('apimLocation'), variables('deploymentSuffix')), 64)]",
             "aiSampleAppDeploymentName": "[take(concat(parameters('prefix'), '-aiSampleApp-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "cosmosDbDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "acaDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -2747,6 +2795,61 @@
                 }
             }
         },
+
+                // Deploying Azure Container Apps into the primary region if 'ecomm' use case is being selected
+                {
+                    "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').acaDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').acaTemplateUrii]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "acaSubnetId": {
+                                "value": "[parameters('acaSubnetId')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaNwLocation": {
+                                "value": "[parameters('acaNwLocation')]"
+                            },
+                            "acaDisableNetworkAccess": {
+                                "value": "[parameters('acaDisableNetworkAccess')]"
+                            },
+                            "acaMonCreation": {
+                                "value": "[parameters('acaMonCreation')]"
+                            },
+                            "azMonWorkspaceName": {
+                                "value": "[variables('resourceNames').azMonWorkspaceName]"
+                            },
+                             "acaZone":{
+                                "value":"[parameters('acaZone')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            }
+                        }
+                    }
+                },
+
+
+
+
         // Retrieving the objectId from DF system identity
         {
             "condition": "[and(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('dfSystemIdentity'), 'Yes'))]",

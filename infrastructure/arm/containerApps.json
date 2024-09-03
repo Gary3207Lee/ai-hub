@@ -20,10 +20,6 @@
                 "description": "Provide a prefix for the resources that will be created as part of the storage account"
             }
         },
-        "userAssignedIdentityResourceId": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "acaSubnetId": {
             "type": "string",
             "defaultValue": ""
@@ -52,13 +48,6 @@
             "type": "string",
             "defaultValue": "Consumption"
         },
-        "acaEnvironmentName":{
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Azure Container App environment name"
-            }
-        },
         "acaZone":{
             "type": "string",
             "defaultValue": "diabled",
@@ -69,6 +58,10 @@
             "metadata": {
                 "description": "ACA zone redundancy setup"
             }
+        },
+        "azMonWorkspaceName":{
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -109,8 +102,8 @@
                               "appLogsConfiguration": {
                                 "destination": "log-analytics",
                                 "logAnalyticsConfiguration": {
-                                  "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2023-09-01').customerId]",
-                                  "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2023-09-01').primarySharedKey]"
+                                  "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', parameters('azMonWorkspaceName'))).customerId]",
+                                  "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('azMonWorkspaceName'))).primarySharedKey]"
                                 }
                               },
                               "workloadProfiles": [
@@ -143,8 +136,8 @@
                             "properties": {
                                 "environmentId": "[resourceId('Microsoft.App/managedEnvironments', variables('name-compliant-acame'))]",
                                 "configuration": {
-                                    "secrets": "[parameters('secrets').arrayValue]",
-                                    "registries": "[parameters('registries')]",
+                                    "secrets": null,
+                                    "registries": null,
                                     "activeRevisionsMode": "Single",
                                     "ingress": {
                                         "external": true,
