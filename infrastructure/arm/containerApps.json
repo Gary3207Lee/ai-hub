@@ -146,10 +146,40 @@
                                     "secrets": "[parameters('secrets').arrayValue]",
                                     "registries": "[parameters('registries')]",
                                     "activeRevisionsMode": "Single",
-                                    "ingress": "[parameters('ingress')]"
+                                    "ingress": {
+                                        "external": true,
+                                        "targetPort": 80,
+                                        "exposedPort": 0,
+                                        "transport": "Auto",
+                                        "traffic": [
+                                            {
+                                                "weight": 100,
+                                                "latestRevision": true
+                                            }
+                                        ],
+                                        "customDomains": null,
+                                        "allowInsecure": false,
+                                        "ipSecurityRestrictions": null,
+                                        "corsPolicy": null,
+                                        "clientCertificateMode": null,
+                                        "stickySessions": null,
+                                        "additionalPortMappings": null,
+                                        "targetPortHttpScheme": null
+                                    }
                                 },
                                 "template": {
-                                    "containers": "[parameters('containers')]",
+                                    "containers": [
+                                        {
+                                            "image": "mcr.microsoft.com/k8se/quickstart:latest",
+                                            "imageType": "ContainerImage",
+                                            "name": "simple-hello-world-container",
+                                            "resources": {
+                                                "cpu": 0.25,
+                                                "memory": "0.5Gi",
+                                                "ephemeralStorage": "1Gi"
+                                            }
+                                        }
+                                    ],
                                     "scale": {
                                         "minReplicas": 1,
                                         "maxReplicas": 3
