@@ -103,7 +103,7 @@
                     "outputs": {
                         "customerId": {
                           "type": "string",
-                          "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon'))).customerId]"
+                          "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2020-08-01').customerId]"
                         },
                         "primarySharedKey": {
                           "type": "string",
