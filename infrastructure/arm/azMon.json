@@ -25,7 +25,8 @@
         }
     },
     "variables": {
-        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]"
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "azmondeployment": "azMon"
     },
     "resources": [
         {
@@ -37,7 +38,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "azMon",
+            "name": "[variables('azMondeployment')]",
             "resourceGroup": "[parameters('rgName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
@@ -116,11 +117,11 @@
     "outputs": {
         "acaworkspaceCustomerId":{
             "type": "string",
-            "value": "[reference(variables('azMon')).outputs.customerId.value]"
+            "value": "[reference(variables('azMondeployment')).outputs.customerId.value]"
         },
         "sharedKey":{
             "type": "string",
-            "value": "[reference(variables('azMon')).outputs.primarySharedKey.value]"
+            "value": "[reference(variables('azMondeployment')).outputs.primarySharedKey.value]"
         }
     }
 }
