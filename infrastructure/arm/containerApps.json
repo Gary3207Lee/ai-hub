@@ -62,9 +62,6 @@
                             "apiVersion": "2024-02-02-preview",
                             "name": "[variables('name-compliant-aca')]",
                             "location": "[parameters('location')]",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
-                            ],
                             "tags": {
                                 "Env": "Demo"
                             },
