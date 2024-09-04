@@ -50,7 +50,7 @@
         },
         "acaZone":{
             "type": "string",
-            "defaultValue": "diabled",
+            "defaultValue": "Disabled",
             "allowedValues": [
                 "Enabled",
                 "Disabled"
@@ -162,7 +162,7 @@
                             }
                         },
                         {
-                            "condition": "[and(equals(parameters('acaDisableNetworkAccess'), 'Yes'), not(empty(parameters('acaSubnetId'))), equals(parameters('acaZone'), 'Enabled'))]",
+                            "condition": "[and(equals(parameters('acaDisableNetworkAccess'), 'Yes'), not(empty(parameters('acaSubnetId'))))]",
                             "type": "Microsoft.App/managedEnvironments",
                             "apiVersion": "2024-03-01",
                             "name": "[variables('name-compliant-acame')]",
