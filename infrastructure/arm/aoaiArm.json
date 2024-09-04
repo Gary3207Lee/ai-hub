@@ -718,7 +718,8 @@
             "azureApimTemplateUri": "[uri(deployment().properties.templateLink.uri, 'apimPublic.json')]",
             "aiSampleAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'aiSampleApp.json')]",
             "cosmosDbTemplateUri": "[uri(deployment().properties.templateLink.uri, 'cosmosDb.json')]",
-            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]",
+            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsenv.json')]",
+            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]",
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]"
@@ -2798,7 +2799,7 @@
             }
         },
 
-                // Deploying Azure Container Apps into the primary region if 'ecomm' use case is being selected
+                // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case is being selected
                 {
                     "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
                     "type": "Microsoft.Resources/deployments",
@@ -2848,6 +2849,44 @@
                         }
                     }
                 },
+
+
+                // Deploying Azure Container Apps into the primary region if 'ecomm' use case is being selected
+                {
+                    "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').containerAppDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').containerAppTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            },
+                            "environmentId": {
+                                "value": "[reference(variables('deploymentNames').acaDeploymentName).outputs.environmentId.value]"
+                            }
+                        }
+                    }
+                }
 
 
 

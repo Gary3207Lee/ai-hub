@@ -20,54 +20,11 @@
                 "description": "Provide a prefix for the resources that will be created as part of the storage account"
             }
         },
-        "acaSubnetId": {
-            "type": "string",
-            "defaultValue": ""
-        },
-        "acaDisableNetworkAccess": {
-            "type": "string",
-            "defaultValue": "No",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ]
-        },
-        "acaNwLocation": {
-            "type": "string",
-            "defaultValue": "[parameters('location')]"
-        },
-        "acaMonCreation": {
-            "type": "string",
-            "defaultValue": "No",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ]
-        },
         "acaworkloadprofile": {
             "type": "string",
             "defaultValue": "Consumption"
         },
-        "acaZone": {
-            "type": "string",
-            "defaultValue": "Disabled",
-            "allowedValues": [
-                "Enabled",
-                "Disabled"
-            ],
-            "metadata": {
-                "description": "ACA zone redundancy setup"
-            }
-        },
-        "azMonWorkspaceName": {
-            "type": "string",
-            "defaultValue": ""
-        },
-        "acaworkspaceCustomerId": {
-            "type": "string",
-            "defaultValue": ""
-        },
-        "sharedKey": {
+        "environmentId": {
             "type": "string",
             "defaultValue": ""
         }
@@ -101,26 +58,63 @@
                     "parameters": {},
                     "resources": [
                         {
-                            "type": "Microsoft.App/managedEnvironments",
-                            "apiVersion": "2023-11-02-preview",
-                            "name": "[variables('name-compliant-acame')]",
+                            "type": "Microsoft.App/containerapps",
+                            "apiVersion": "2024-02-02-preview",
+                            "name": "[variables('name-compliant-aca')]",
                             "location": "[parameters('location')]",
+                            "dependsOn": [
+                                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+                            ],
+                            "tags": {
+                                "Env": "Demo"
+                            },
+                            "kind": "containerapps",
                             "properties": {
-                                "appLogsConfiguration": {
-                                    "destination": null,
-                                    "logAnalyticsConfiguration": null
-                                },
-                                "workloadProfiles": [
-                                    {
-                                        "name": "Consumption",
-                                        "workloadProfileType": "Consumption"
+                                "environmentId": "[parameters('environmentId')]",
+                                "configuration": {
+                                    "secrets": null,
+                                    "registries": null,
+                                    "activeRevisionsMode": "Single",
+                                    "ingress": {
+                                        "external": true,
+                                        "targetPort": 80,
+                                        "exposedPort": 0,
+                                        "transport": "Auto",
+                                        "traffic": [
+                                            {
+                                                "weight": 100,
+                                                "latestRevision": true
+                                            }
+                                        ],
+                                        "customDomains": null,
+                                        "allowInsecure": false,
+                                        "ipSecurityRestrictions": null,
+                                        "corsPolicy": null,
+                                        "clientCertificateMode": null,
+                                        "stickySessions": null,
+                                        "additionalPortMappings": null,
+                                        "targetPortHttpScheme": null
                                     }
-                                ],
-                                "vnetConfiguration": {
-                                    "internal": false,
-                                    "infrastructureSubnetId": "[parameters('acaSubnetId')]"
                                 },
-                                "zoneRedundant": false
+                                "template": {
+                                    "containers": [
+                                        {
+                                            "image": "mcr.microsoft.com/k8se/quickstart:latest",
+                                            "imageType": "ContainerImage",
+                                            "name": "simple-hello-world-container",
+                                            "resources": {
+                                                "cpu": 0.25,
+                                                "memory": "0.5Gi",
+                                                "ephemeralStorage": "1Gi"
+                                            }
+                                        }
+                                    ],
+                                    "scale": {
+                                        "minReplicas": 1,
+                                        "maxReplicas": 3
+                                    }
+                                },
+                                "workloadProfileName": "Consumption"
                             }
                         }
                     ]
