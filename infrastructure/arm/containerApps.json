@@ -118,7 +118,7 @@
                                 ],
                                 "vnetConfiguration": {
                                     "internal": false,
-                                    "infrastructureSubnetId": "[parameters('acaSubnetId')]"
+                                    "infrastructureSubnetId": "[resourceId(parameters('acaSubnetId'))]"
                                 },
                                 "zoneRedundant": false
                             }
