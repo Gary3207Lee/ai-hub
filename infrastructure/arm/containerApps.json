@@ -124,10 +124,7 @@
                                 "internal": false,
                                 "infrastructureSubnetId": "[parameters('acaSubnetId')]"
                               }
-                            },
-                            "dependsOn": [
-                              "[resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon'))]"
-                            ]
+                            }
                         },
                         {
                             "type": "Microsoft.App/containerapps",
