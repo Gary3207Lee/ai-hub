@@ -2844,6 +2844,12 @@
                             },
                             "acaworkloadprofile":{
                                 "value": "Consumption"
+                            },
+                            "acaworkspaceCustomerId": {
+                                "value": "[reference(variables('deploymentNames').azMonDeploymentName).outputs.acaworkspaceCustomerId.value]"
+                            },
+                            "acasharedKey": {
+                                "value": "[reference(variables('deploymentNames').azMonDeploymentName).outputs.sharedKey.value]"
                             }
                         }
                     }
