@@ -103,5 +103,14 @@
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "workspaceCustomerId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2023-09-01').customerId]"
+    },
+    "sharedKey":{
+        "type": "string",
+        "value": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2023-09-01').primarySharedKey]"
+    }
+    }
 }
