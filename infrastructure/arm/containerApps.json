@@ -63,7 +63,7 @@
             "type": "string",
             "defaultValue": ""
         },
-        "acaworkspaceId":{
+        "acaworkspaceCustomerId":{
             "type": "string",
             "defaultValue": ""
         },
@@ -110,7 +110,7 @@
                               "appLogsConfiguration": {
                                 "destination": "log-analytics",
                                 "logAnalyticsConfiguration": {
-                                  "customerId": "[parameters('acaworkspaceId')]",
+                                  "customerId": "[parameters('acaworkspaceCustomerId')]",
                                   "sharedKey": "[parameters('acasharedKey')]"
                                 }
                               },
