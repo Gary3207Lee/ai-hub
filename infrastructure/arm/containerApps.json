@@ -101,67 +101,6 @@
                     "parameters": {},
                     "resources": [
                         {
-                            "type": "Microsoft.App/containerapps",
-                            "apiVersion": "2024-02-02-preview",
-                            "name": "[variables('name-compliant-aca')]",
-                            "location": "[parameters('location')]",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]",
-                                "[resourceId('Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]"
-                            ],
-                            "tags": {
-                                "Env": "Demo"
-                            },
-                            "kind": "containerapps",
-                            "properties": {
-                                "environmentId": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')), '2022-03-01')]",
-                                "configuration": {
-                                    "secrets": null,
-                                    "registries": null,
-                                    "activeRevisionsMode": "Single",
-                                    "ingress": {
-                                        "external": true,
-                                        "targetPort": 80,
-                                        "exposedPort": 0,
-                                        "transport": "Auto",
-                                        "traffic": [
-                                            {
-                                                "weight": 100,
-                                                "latestRevision": true
-                                            }
-                                        ],
-                                        "customDomains": null,
-                                        "allowInsecure": false,
-                                        "ipSecurityRestrictions": null,
-                                        "corsPolicy": null,
-                                        "clientCertificateMode": null,
-                                        "stickySessions": null,
-                                        "additionalPortMappings": null,
-                                        "targetPortHttpScheme": null
-                                    }
-                                },
-                                "template": {
-                                    "containers": [
-                                        {
-                                            "image": "mcr.microsoft.com/k8se/quickstart:latest",
-                                            "imageType": "ContainerImage",
-                                            "name": "simple-hello-world-container",
-                                            "resources": {
-                                                "cpu": 0.25,
-                                                "memory": "0.5Gi",
-                                                "ephemeralStorage": "1Gi"
-                                            }
-                                        }
-                                    ],
-                                    "scale": {
-                                        "minReplicas": 1,
-                                        "maxReplicas": 3
-                                    }
-                                },
-                                "workloadProfileName": "Consumption"
-                            }
-                        },
-                        {
                             "type": "Microsoft.App/managedEnvironments",
                             "apiVersion": "2023-11-02-preview",
                             "name": "[variables('name-compliant-acame')]",
