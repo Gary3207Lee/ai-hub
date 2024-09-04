@@ -101,7 +101,6 @@
                     "parameters": {},
                     "resources": [
                         {
-                            "condition": "[and(equals(parameters('acaDisableNetworkAccess'), 'Yes'), not(empty(parameters('acaSubnetId'))))]",
                             "type": "Microsoft.App/managedEnvironments",
                             "apiVersion": "2023-11-02-preview",
                             "name": "[variables('name-compliant-acame')]",
