@@ -106,7 +106,7 @@
                             "name": "[variables('name-compliant-aca')]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
-                                "[concat('Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]"
+                                "[resourceId('Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]"
                             ],
                             "tags": {
                                 "Env": "Demo"
