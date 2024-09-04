@@ -3219,7 +3219,6 @@
                 "dfMonCreation": "[steps('aiAuxiliarySettings').dfMonCreation]",
                 "videoSystemIdentity": "[steps('aiAuxiliarySettings').aiVideoIndexerSystemIdentity]",
                 "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]",
-
                 "acaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaDisableNetworkAccess]",
                 "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
