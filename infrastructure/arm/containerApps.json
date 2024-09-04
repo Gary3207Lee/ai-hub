@@ -140,7 +140,7 @@
                             },
                             "kind": "containerapps",
                             "properties": {
-                                "environmentId": "[resourceId('Microsoft.App/managedEnvironments', variables('name-compliant-acame'))]",
+                                "environmentId": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')))]",
                                 "configuration": {
                                     "secrets": null,
                                     "registries": null,
