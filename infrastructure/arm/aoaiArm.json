@@ -777,7 +777,8 @@
             "apimDeploymentName": "[take(concat(parameters('prefix'), '-apim-', parameters('apimLocation'), variables('deploymentSuffix')), 64)]",
             "aiSampleAppDeploymentName": "[take(concat(parameters('prefix'), '-aiSampleApp-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "cosmosDbDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "acaDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -2804,7 +2805,7 @@
                     "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2022-09-01",
-                    "name": "[variables('deploymentNames').acaDeploymentName]",
+                    "name": "[variables('deploymentNames').acaevDeploymentName]",
                     "location": "[parameters('location')]",
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
@@ -2882,7 +2883,7 @@
                                 "value": "Consumption"
                             },
                             "environmentId": {
-                                "value": "[reference(variables('deploymentNames').acaDeploymentName).outputs.environmentId.value]"
+                                "value": "[reference(variables('deploymentNames').acaevDeploymentName).outputs.environmentId.value]"
                             }
                         }
                     }
