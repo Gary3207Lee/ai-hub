@@ -99,29 +99,11 @@
                                 ]
                             }
                         }
-                    ],
-                    "outputs": {
-                        "customerId": {
-                          "type": "string",
-                          "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2020-08-01').customerId]"
-                        },
-                        "primarySharedKey": {
-                          "type": "string",
-                          "value": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2020-08-01').primarySharedKey]"
-                        }
-                      }
+                    ]
                 }
             }
         }
     ],
     "outputs": {
-        "acaworkspaceCustomerId":{
-            "type": "string",
-            "value": "[reference(variables('azMondeployment')).outputs.customerId.value]"
-        },
-        "sharedKey":{
-            "type": "string",
-            "value": "[reference(variables('azMondeployment')).outputs.primarySharedKey.value]"
-        }
     }
 }

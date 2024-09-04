@@ -107,11 +107,8 @@
                             "location": "[parameters('location')]",
                             "properties": {
                               "appLogsConfiguration": {
-                                "destination": "log-analytics",
-                                "logAnalyticsConfiguration": {
-                                  "customerId": "[parameters('acaworkspaceCustomerId')]",
-                                  "sharedKey": "[parameters('sharedKey')]"
-                                }
+                                "destination": null,
+                                "logAnalyticsConfiguration": null
                               },
                               "workloadProfiles": [
                                 {
