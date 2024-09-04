@@ -98,13 +98,7 @@
                                 ]
                             }
                         }
-                    ],
-                    "outputs": {
-                        "workspaceCustomerId": {
-                          "type": "string",
-                          "value": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon')), '2021-12-01-preview').customerId]"
-                        }
-                      }
+                    ]
                 }
             }
         }
@@ -112,7 +106,7 @@
     "outputs": {
         "workspaceCustomerId": {
           "type": "string",
-          "value": "[reference('azMon').outputs.workspaceCustomerId.value]"
+          "value": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon')), '2021-12-01-preview').customerId]"
         }
       }
 }
