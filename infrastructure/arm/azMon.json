@@ -102,7 +102,7 @@
                     "outputs": {
                         "workspaceCustomerId": {
                           "type": "string",
-                          "value": "[reference(resourceId(parameters('rgName'), 'Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2021-12-01-preview').customerId]"
+                          "value": "[reference(resourceId(subscription().id, parameters('rgName'), 'Microsoft.OperationalInsights/workspaces', variables('name-compliant-azMon')), '2021-12-01-preview').customerId]"
                         }
                       }
                 }
