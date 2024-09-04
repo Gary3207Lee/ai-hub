@@ -110,7 +110,7 @@
                                 "destination": "log-analytics",
                                 "logAnalyticsConfiguration": {
                                   "customerId": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon')), '2021-12-01-preview').customerId]",
-                                  "sharedKey": "[parameters('acasharedKey')]"
+                                  "sharedKey": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon')), '2021-12-01-preview').primarySharedKey]"
                                 }
                               },
                               "workloadProfiles": [
