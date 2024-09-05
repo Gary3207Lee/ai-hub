@@ -66,7 +66,7 @@
                                 "Env": "Demo"
                             },
                             "properties": {
-                                "environmentId": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')), '2024-03-01')]",
+                                "environmentId": "[parameters('environmentId')]",
                                 "configuration": {
                                     "secrets": null,
                                     "registries": null,

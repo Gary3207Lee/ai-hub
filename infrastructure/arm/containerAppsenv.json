@@ -123,13 +123,7 @@
                                 "zoneRedundant": false
                             }
                         }
-                    ],
-                    "outputs": {
-                        "innerenvironmentId": {
-                          "type": "string",
-                          "value": "[resourceId('Microsoft.App/managedEnvironments', variables('name-compliant-acame'))]"
-                        }
-                      }
+                    ]
                 }
             }
         }
@@ -137,7 +131,7 @@
     "outputs": {
     "environmentId": {
       "type": "string",
-      "value": "[reference(variables('name-compliant-acame')).outputs.innerenvironmentId.value]"
+      "value": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')), '2022-03-01')]"
     }
   }
 }
