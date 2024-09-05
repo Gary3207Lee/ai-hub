@@ -88,7 +88,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "acame-deployment",
+            "name": "[variables('name-compliant-acame')]",
             "resourceGroup": "[parameters('rgName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
@@ -123,7 +123,13 @@
                                 "zoneRedundant": false
                             }
                         }
-                    ]
+                    ],
+                    "outputs": {
+                        "innerenvironmentId": {
+                          "type": "string",
+                          "value": "[resourceId('Microsoft.App/managedEnvironments', variables('name-compliant-acame'))]"
+                        }
+                      }
                 }
             }
         }
@@ -131,7 +137,7 @@
     "outputs": {
     "environmentId": {
       "type": "string",
-      "value": "[resourceId('Microsoft.App/managedEnvironments', variables('name-compliant-acame'))]"
+      "value": "[reference(variables('name-compliant-acame')).outputs.innerenvironmentId.value]"
     }
   }
 }
