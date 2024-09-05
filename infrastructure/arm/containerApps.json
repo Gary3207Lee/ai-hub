@@ -66,36 +66,24 @@
                                 "Env": "Demo"
                             },
                             "properties": {
-                                "environmentId": "[parameters('environmentId')]",
+                                "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
                                 "configuration": {
-                                    "secrets": null,
-                                    "registries": null,
                                     "activeRevisionsMode": "Single",
                                     "ingress": {
                                         "external": true,
                                         "targetPort": 80,
-                                        "exposedPort": 0,
-                                        "transport": "Auto",
                                         "traffic": [
                                             {
                                                 "weight": 100,
                                                 "latestRevision": true
                                             }
-                                        ],
-                                        "customDomains": null,
-                                        "allowInsecure": false,
-                                        "ipSecurityRestrictions": null,
-                                        "corsPolicy": null,
-                                        "clientCertificateMode": null,
-                                        "stickySessions": null,
-                                        "additionalPortMappings": null,
-                                        "targetPortHttpScheme": null
+                                        ]
                                     }
                                 },
                                 "template": {
                                     "containers": [
                                         {
-                                            "image": "mcr.microsoft.com/azuredocs/aci-helloworld:latest",
+                                            "image": "mcr.microsoft.com/k8se/quickstart:latest",
                                             "name": "simple-hello-world-container",
                                             "resources": {
                                                 "cpu": 0.25,
