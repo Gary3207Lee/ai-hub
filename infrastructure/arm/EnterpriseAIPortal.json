@@ -1609,8 +1609,8 @@
                                         "value": "video"
                                     },
                                     {
-                                        "label": "eRetail Search",
-                                        "description": "Search the eRetail :)",
+                                        "label": "Retail AI enhanced search",
+                                        "description": "Retail AI enhanced search",
                                         "value": "ecomm"
                                     }
                                 ],
