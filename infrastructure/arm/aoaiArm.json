@@ -2861,7 +2861,8 @@
                     "location": "[parameters('location')]",
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -2882,8 +2883,8 @@
                             "acaworkloadprofile":{
                                 "value": "Consumption"
                             },
-                            "environmentId": {
-                                "value": "[reference(variables('deploymentNames').acaevDeploymentName).outputs.environmentId.value]"
+                            "userAssignedIdentity": {
+                                "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
                             }
                         }
                     }

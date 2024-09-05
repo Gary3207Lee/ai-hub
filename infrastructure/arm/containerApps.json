@@ -27,7 +27,14 @@
         "environmentId": {
             "type": "string",
             "defaultValue": ""
-        }
+        },
+        "userAssignedIdentity": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide the object ID of the user-assigned identity to be used to access the Key Vault data plane."
+            }
+        },
     },
     "variables": {
         "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
@@ -62,6 +69,12 @@
                             "apiVersion": "2024-03-01",
                             "name": "[variables('name-compliant-aca')]",
                             "location": "[parameters('location')]",
+                            "identity": {
+                                "type": "userAssigned",
+                                "userAssignedIdentities": {
+                                    "[parameters('userAssignedIdentity')]": {}
+                                }
+                            },
                             "tags": {
                                 "Env": "Demo"
                             },
