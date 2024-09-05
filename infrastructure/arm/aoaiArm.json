@@ -681,11 +681,11 @@
             "defaultValue": "Consumption"
         },
         "acaZone":{
-            "type": "string",
-            "defaultValue": "Disabled",
+            "type": "bool",
+            "defaultValue": true,
             "allowedValues": [
-                "Enabled",
-                "Disabled"
+                true,
+                false
             ],
             "metadata": {
                 "description": "ACA zone redundancy setup"

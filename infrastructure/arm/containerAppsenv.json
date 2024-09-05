@@ -49,12 +49,8 @@
             "defaultValue": "Consumption"
         },
         "acaZone": {
-            "type": "string",
-            "defaultValue": "Disabled",
-            "allowedValues": [
-                "Enabled",
-                "Disabled"
-            ],
+            "type": "bool",
+            "defaultValue": "",
             "metadata": {
                 "description": "ACA zone redundancy setup"
             }
@@ -124,7 +120,7 @@
                                     "internal": false,
                                     "infrastructureSubnetId": "[parameters('acaSubnetId')]"
                                 },
-                                "zoneRedundant": false
+                                "zoneRedundant": "[parameters('acaZone')]"
                             }
                         }
                     ]
