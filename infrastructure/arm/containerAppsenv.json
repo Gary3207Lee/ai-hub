@@ -75,7 +75,8 @@
     "variables": {
         "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
         "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
-        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
+        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]",
+        "logAnalyticsWorkspaceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]"
     },
     "resources": [
         {
@@ -107,8 +108,11 @@
                             "location": "[parameters('location')]",
                             "properties": {
                                 "appLogsConfiguration": {
-                                    "destination": null,
-                                    "logAnalyticsConfiguration": null
+                                    "destination": "log-analytics",
+                                    "logAnalyticsConfiguration": {
+                                        "customerId": "[reference(variables('logAnalyticsWorkspaceId'), '2020-08-01').customerId]",
+                                        "sharedKey": "[listKeys(variables('logAnalyticsWorkspaceId'), '2020-08-01').primarySharedKey]"
+                                    }
                                 },
                                 "workloadProfiles": [
                                     {
@@ -127,11 +131,5 @@
                 }
             }
         }
-    ],
-    "outputs": {
-    "environmentId": {
-      "type": "string",
-      "value": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')), '2022-03-01')]"
-    }
-  }
+    ]
 }
