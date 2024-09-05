@@ -59,15 +59,14 @@
                     "resources": [
                         {
                             "type": "Microsoft.App/containerapps",
-                            "apiVersion": "2024-02-02-preview",
+                            "apiVersion": "2024-03-01",
                             "name": "[variables('name-compliant-aca')]",
                             "location": "[parameters('location')]",
                             "tags": {
                                 "Env": "Demo"
                             },
-                            "kind": "containerapps",
                             "properties": {
-                                "environmentId": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')), '2022-03-01')]",
+                                "environmentId": "[reference(concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame')), '2024-03-01')]",
                                 "configuration": {
                                     "secrets": null,
                                     "registries": null,
@@ -109,8 +108,7 @@
                                         "minReplicas": 1,
                                         "maxReplicas": 3
                                     }
-                                },
-                                "workloadProfileName": "Consumption"
+                                }
                             }
                         }
                     ]
