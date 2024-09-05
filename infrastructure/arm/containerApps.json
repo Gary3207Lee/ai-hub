@@ -96,8 +96,7 @@
                                 "template": {
                                     "containers": [
                                         {
-                                            "image": "mcr.microsoft.com/k8se/quickstart:latest",
-                                            "imageType": "ContainerImage",
+                                            "image": "mcr.microsoft.com/azuredocs/aci-helloworld:latest",
                                             "name": "simple-hello-world-container",
                                             "resources": {
                                                 "cpu": 0.25,
