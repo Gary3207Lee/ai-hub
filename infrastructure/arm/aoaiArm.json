@@ -649,7 +649,53 @@
         "docLocation": {
             "type": "string",
             "defaultValue": "[parameters('location')]"
+        },
+
+
+        "acaSubnetId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "acaDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "acaMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "acaZone":{
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "ACA zone redundancy setup"
+            }
         }
+
+
+
+
+
     },
     "variables": {
         "templateUris": {
@@ -672,6 +718,8 @@
             "azureApimTemplateUri": "[uri(deployment().properties.templateLink.uri, 'apimPublic.json')]",
             "aiSampleAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'aiSampleApp.json')]",
             "cosmosDbTemplateUri": "[uri(deployment().properties.templateLink.uri, 'cosmosDb.json')]",
+            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsenv.json')]",
+            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]",
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]"
@@ -729,6 +777,8 @@
             "apimDeploymentName": "[take(concat(parameters('prefix'), '-apim-', parameters('apimLocation'), variables('deploymentSuffix')), 64)]",
             "aiSampleAppDeploymentName": "[take(concat(parameters('prefix'), '-aiSampleApp-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "cosmosDbDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -745,7 +795,8 @@
         "useCasesMap": {
         "onyourdata": "UGxlYXNlIGV4dHJhY3QgYW5kIHByb3ZpZGUgcHJlY2lzZSBpbmZvcm1hdGlvbiBmcm9tIHRoZSBwcm92aWRlZCBkb2N1bWVudHMgdGhhdCBkaXJlY3RseSBhZGRyZXNzZXMgdGhlIHNwZWNpZmljIGlucXVpcnkuIEF2b2lkIGluY2x1ZGluZyBhbnkgYWRkaXRpb25hbCBjb21tZW50YXJ5IG5vdCBmb3VuZCB3aXRoaW4gdGhlIGRvY3VtZW50cyBzdXBwbGllZC4=",
         "vision": "UGxlYXNlIGV4dHJhY3QgYW5kIHByb3ZpZGUgcHJlY2lzZSBpbmZvcm1hdGlvbiBmcm9tIHRoZSBwcm92aWRlZCBkb2N1bWVudHMgdGhhdCBkaXJlY3RseSBhZGRyZXNzZXMgdGhlIHNwZWNpZmljIGlucXVpcnkuIEF2b2lkIGluY2x1ZGluZyBhbnkgYWRkaXRpb25hbCBjb21tZW50YXJ5IG5vdCBmb3VuZCB3aXRoaW4gdGhlIGRvY3VtZW50cyBzdXBwbGllZC4=",
-        "video": "UGxlYXNlIGV4dHJhY3QgYW5kIHByb3ZpZGUgcHJlY2lzZSBpbmZvcm1hdGlvbiBmcm9tIHRoZSBwcm92aWRlZCBkb2N1bWVudHMgdGhhdCBkaXJlY3RseSBhZGRyZXNzZXMgdGhlIHNwZWNpZmljIGlucXVpcnkuIEF2b2lkIGluY2x1ZGluZyBhbnkgYWRkaXRpb25hbCBjb21tZW50YXJ5IG5vdCBmb3VuZCB3aXRoaW4gdGhlIGRvY3VtZW50cyBzdXBwbGllZC4="
+        "video": "UGxlYXNlIGV4dHJhY3QgYW5kIHByb3ZpZGUgcHJlY2lzZSBpbmZvcm1hdGlvbiBmcm9tIHRoZSBwcm92aWRlZCBkb2N1bWVudHMgdGhhdCBkaXJlY3RseSBhZGRyZXNzZXMgdGhlIHNwZWNpZmljIGlucXVpcnkuIEF2b2lkIGluY2x1ZGluZyBhbnkgYWRkaXRpb25hbCBjb21tZW50YXJ5IG5vdCBmb3VuZCB3aXRoaW4gdGhlIGRvY3VtZW50cyBzdXBwbGllZC4=",
+        "ecomm": "UGxlYXNlIGV4dHJhY3QgYW5kIHByb3ZpZGUgcHJlY2lzZSBpbmZvcm1hdGlvbiBmcm9tIHRoZSBwcm92aWRlZCBkb2N1bWVudHMgdGhhdCBkaXJlY3RseSBhZGRyZXNzZXMgdGhlIHNwZWNpZmljIGlucXVpcnkuIEF2b2lkIGluY2x1ZGluZyBhbnkgYWRkaXRpb25hbCBjb21tZW50YXJ5IG5vdCBmb3VuZCB3aXRoaW4gdGhlIGRvY3VtZW50cyBzdXBwbGllZC4="
         },
         "azureOpenAISystemMessage": "[if(not(empty(parameters('aiUseCaseSelection'))), variables('useCasesMap')[parameters('aiUseCaseSelection')], json('null'))]",
         "resourceNames": {
@@ -764,7 +815,8 @@
             "apimName": "[concat(parameters('prefix'), '-', parameters('apimLocation'), '-apim')]",
             "appName": "[concat(parameters('prefix'), '-', parameters('location'), '-wa')]",
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
-            "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]"
+            "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
+            "acaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-aca'))]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
@@ -2747,6 +2799,100 @@
                 }
             }
         },
+
+                // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case is being selected
+                {
+                    "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').acaevDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').acaTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "acaSubnetId": {
+                                "value": "[parameters('acaSubnetId')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaNwLocation": {
+                                "value": "[parameters('acaNwLocation')]"
+                            },
+                            "acaDisableNetworkAccess": {
+                                "value": "[parameters('acaDisableNetworkAccess')]"
+                            },
+                            "acaMonCreation": {
+                                "value": "[parameters('acaMonCreation')]"
+                            },
+                            "azMonWorkspaceName": {
+                                "value": "[variables('resourceNames').azMonWorkspaceName]"
+                            },
+                             "acaZone":{
+                                "value":"[parameters('acaZone')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            }
+                        }
+                    }
+                },
+
+
+                // Deploying Azure Container Apps into the primary region if 'ecomm' use case is being selected
+                {
+                    "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').containerAppDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').containerAppTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            },
+                            "userAssignedIdentity": {
+                                "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
+                            }
+                        }
+                    }
+                },
+
+
+
+
         // Retrieving the objectId from DF system identity
         {
             "condition": "[and(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('dfSystemIdentity'), 'Yes'))]",

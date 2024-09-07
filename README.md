@@ -40,9 +40,9 @@ So why wait? Start your journey with Generative AI on Azure today. Dive into the
 
 You can deploy the following reference implementations to your Azure subscription.
 
-| Reference Implementation | Description | Deploy | Instructions  
-|:----------|:-------------------------|:------------|:-------|  
-| Enterprise Azure OpenAI Hub | Provides an onramp path for Gen AI use cases while ensuring a secure-by-default Azure OpenAI workload composition into your Azure regions and subscriptions | [![Deploy to Azure](./docs/deploytomicrosoftcloud.svg)](https://aka.ms/DeploySecureGenAI)| [User Guide](./docs/EnterpriseAzureOpenAIHub.md) |  
+| Reference Implementation | Description | Deploy | Instructions  | Temp Deploy
+|:----------|:-------------------------|:------------|:-------|:----------|  
+| Enterprise Azure OpenAI Hub | Provides an onramp path for Gen AI use cases while ensuring a secure-by-default Azure OpenAI workload composition into your Azure regions and subscriptions | [![Deploy to Azure](./docs/deploytomicrosoftcloud.svg)](https://aka.ms/DeploySecureGenAI)| [User Guide](./docs/EnterpriseAzureOpenAIHub.md) |  [![Deploy To Azure](https://learn.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://ms.portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Faarunraaj%2Fai-hub%2Fmain%2Finfrastructure%2Farm%2FaoaiArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Faarunraaj%2Fai-hub%2Fmain%2Finfrastructure%2Farm%2FEnterpriseAIPortal.json)
 | Enterprise Azure OpenAI Hub Terraform| Provides an onramp path for Gen AI use cases while ensuring a secure-by-default Azure OpenAI workload composition into your Azure regions and subscriptions | [![Deploy to Azure](./docs/deploytomicrosoftcloud.svg)](./infrastructure/terraform//README.md)| [User Guide](./infrastructure/terraform/README.md) |  
 
 ### Things that matters
