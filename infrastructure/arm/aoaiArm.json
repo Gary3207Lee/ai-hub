@@ -15,6 +15,17 @@
                 "description": "Provide a prefix that will be used for naming convention for the resources that will be created"
             }
         },
+        "aiDeployOption": {
+            "type": "string",
+            "allowedValues": [
+                "Production",
+                "PoC"
+            ],
+            "defaultValue": "Production",
+            "metadata": {
+                "description": "Select the deployment option between 'production' and 'Proof of Concept'"
+            }
+        },
         "userIdentity": {
             "type": "string",
             "defaultValue": "",
@@ -2847,7 +2858,7 @@
 
                 // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case is being selected
                 {
-                    "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2022-09-01",
                     "name": "[variables('deploymentNames').acaevDeploymentName]",
@@ -2899,7 +2910,7 @@
 
                 // Deploying Azure Container Apps into the primary region if 'ecomm' use case is being selected
                 {
-                    "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2022-09-01",
                     "name": "[variables('deploymentNames').containerAppDeploymentName]",
