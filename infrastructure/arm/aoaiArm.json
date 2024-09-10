@@ -690,6 +690,10 @@
             "metadata": {
                 "description": "ACA zone redundancy setup"
             }
+        },
+        "ecommEmbeddingModelDeploymentName": {
+            "type": "string",
+            "defaultValue": ""
         }
 
 
@@ -782,7 +786,8 @@
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]"
+            "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommEmbeddingModelDeploymentName": "[take(concat(parameters('prefix'), 'ecom-embeddingModel-', parameters('location'), variables('deploymentSuffix')), 64)]"
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -1095,6 +1100,9 @@
                     },
                     "createDataPlaneRbacDef": {
                         "value": "[parameters('createDataPlaneRbacDef')]"
+                    },
+                    "ecommEmbeddingModelDeploymentName": {
+                        "value": "[parameters('ecommEmbeddingModelDeploymentName')]"
                     }
                 }
             }
@@ -1447,6 +1455,43 @@
                 }
             }
         },
+
+        // Deploying Embedding model for Retail use case
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiUseCaseDeployment'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').ecommEmbeddingModelDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]"
+
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').azureOpenAiModelTemplateUri]"
+                },
+                "parameters": {
+                    "prefix": {
+                        "value": "[parameters('prefix')]"
+                    },
+                    "aiModelDeploymentName": {
+                        "value": "[parameters('ecommEmbeddingModelDeploymentName')]"
+                    },
+                    "aiModelVersion": {
+                        "value": "[variables('resourceNames').aoaiOrchestratorModelName]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+
+
         // Deploying embedding model to dedicated AOAI instance for orchestrating index and generate embeddings
         {
             "condition": "[and(equals(parameters('aiAddEmbeddingInstance'), 'Same'), equals(parameters('aiModelDeployment'), 'Yes'))]",

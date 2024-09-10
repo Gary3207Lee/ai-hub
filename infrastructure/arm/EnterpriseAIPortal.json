@@ -1651,7 +1651,7 @@
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
                             "options": {
                                 "icon": "None",
-                                "text": "<b> </b><img src='https://raw.githubusercontent.com/aarunraaj/ai-hub/main/docs/azure-eRetail-architecture.png'>"
+                                "text": "<b> </b><img src='https://raw.githubusercontent.com/IamVarma/ai-hub/main/docs/azure-eRetail-architecture.png'>"
                             }
                         },
 
@@ -1775,6 +1775,20 @@
                                     "uri": "https://github.com/Azure/ai-hub"
                                 }
                             }
+                        },
+                        {
+                            "name": "ecommEmbeddingModelDeploymentName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Embedding Model Deployment Name",
+                            "placeholder": "",
+                            "defaultValue": "",
+                            "toolTip": "Use only allowed characters",
+                            "constraints": {
+                                "required": true,
+                                "regex": "^[a-z0-9A-Z-]{1,10}$",
+                                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-10 characters long."
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'))]"
                         },
                         {
                             "name": "aiAddEmbeddingInstance",
@@ -3101,7 +3115,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'),equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "acaMonSection",
@@ -3232,7 +3246,8 @@
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
                 "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
                 "acaZone": "[steps('aiAuxiliarySettings').acaZone]",
-                "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]"
+                "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]",
+                "ecommEmbeddingModelDeploymentName": "[steps('aiAuxiliarySettings').ecommEmbeddingModelDeploymentName]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').resourceScope.location.name]",
