@@ -5,13 +5,13 @@
         "rgName": {
             "type": "string",
             "metadata": {
-                "description": "Select the naming convertion for the resource group that will be created"
+                "description": "Select the naming convention for the resource group that will be created"
             }
         },
         "location": {
             "type": "string",
             "metadata": {
-                "description": "Provide the Azure region for the storage accont"
+                "description": "Provide the Azure region for the storage account"
             }
         },
         "prefix": {
