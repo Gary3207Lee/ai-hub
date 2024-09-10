@@ -1756,6 +1756,13 @@
                             "elements": [],
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         },
+						{
+                            "name": "aiRetailSearchSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Required services for the 'Retail - AI Enhanced Search' use case",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]"
+                        },
                         {
                             "name": "aiDedicatedInfo",
                             "type": "Microsoft.Common.TextBlock",
@@ -3051,7 +3058,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Authorization Settings",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "acaSystemIdentity",
@@ -3072,7 +3079,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
 
                         {
@@ -3094,14 +3101,14 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "acaMonSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Monitor Settings",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
                             "name": "acaMonCreation",
@@ -3122,7 +3129,8 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            
                         }
 
 

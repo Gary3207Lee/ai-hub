@@ -109,7 +109,7 @@
                     "resources": [
                         {
                             "type": "Microsoft.CognitiveServices/accounts",
-                            "apiVersion": "2022-03-01",
+                            "apiVersion": "2023-05-01",
                             "name": "[variables('name-compliant-azureOpenAi')]",
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('aiSystemIdentity'), 'Yes'), variables('aiIdentity'), json('null'))]",
