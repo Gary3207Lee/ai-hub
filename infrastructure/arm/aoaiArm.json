@@ -1467,42 +1467,7 @@
             }
         },
 
-        // Deploying Embedding model for Retail use case
-        {
-            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiUseCaseDeployment'), 'Yes'))]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').ecommEmbeddingModelDeploymentName]",
-            "resourceGroup": "[variables('resourceNames').rgName]",
-            "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]"
-
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('templateUris').azureOpenAiModelTemplateUri]"
-                },
-                "parameters": {
-                    "prefix": {
-                        "value": "[parameters('prefix')]"
-                    },
-                    "aiModelDeploymentName": {
-                        "value": "[parameters('ecommEmbeddingModelDeploymentName')]"
-                    },
-                    "aiModelVersion": {
-                        "value": "[variables('resourceNames').aoaiOrchestratorModelName]"
-                    },
-                    "location": {
-                        "value": "[parameters('location')]"
-                    }
-                }
-            }
-        },
-
-
+        
         // Deploying embedding model to dedicated AOAI instance for orchestrating index and generate embeddings
         {
             "condition": "[and(equals(parameters('aiAddEmbeddingInstance'), 'Same'), equals(parameters('aiModelDeployment'), 'Yes'))]",
@@ -1537,6 +1502,7 @@
                 }
             }
         },
+
         // Deploying Azure AI Search into primary region
         {
             "condition": "[equals(parameters('aiUseCaseDeployment'), 'Yes')]",
@@ -1596,6 +1562,7 @@
                 }
             }
         },
+
         // Deploying Azure AI Vision into primary region
         {
             "condition": "[equals(parameters('aiUseCaseSelection'), 'vision')]",
@@ -1649,6 +1616,7 @@
                 }
             }
         },
+
         // Deploying Azure AI Video Indexer into primary region
         {
             "condition": "[equals(parameters('aiUseCaseSelection'), 'video')]",
@@ -1687,6 +1655,7 @@
                 }
             }
         },
+
         // Retrieving objectId of the Azure AI Video Indexer System Identity
         {
             "condition": "[equals(parameters('videoSystemIdentity'), 'Yes')]",
@@ -2577,6 +2546,44 @@
                 }
             }
         },
+
+        // Deploying Embedding model for Retail use case
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiUseCaseDeployment'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').ecommEmbeddingModelDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiModelDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAIContentFilterDeploymentName)]"
+
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').azureOpenAiModelTemplateUri]"
+                },
+                "parameters": {
+                    "prefix": {
+                        "value": "[parameters('prefix')]"
+                    },
+                    "aiModelDeploymentName": {
+                        "value": "[parameters('ecommEmbeddingModelDeploymentName')]"
+                    },
+                    "aiModelVersion": {
+                        "value": "[variables('resourceNames').aoaiOrchestratorModelName]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+
         // Embedding with On Your Data: Automated model deployment subject to use case selection and dedicated AOAI for embedding (must be "No")
         {
             "condition": "[and(equals(parameters('aiAddEmbeddingInstance'), 'No'), equals(parameters('aiUseCaseSelection'), 'onyourdata'))]",
