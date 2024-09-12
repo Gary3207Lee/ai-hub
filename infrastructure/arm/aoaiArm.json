@@ -798,7 +798,9 @@
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommEmbeddingModelDeploymentName": "[take(concat(parameters('prefix'), 'ecom-embeddingModel-', parameters('location'), variables('deploymentSuffix')), 64)]"
+            "ecommEmbeddingModelDeploymentName": "[take(concat(parameters('prefix'), 'ecom-embeddingModel-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommAiSearchRbacForCosmosDBReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosReader-', parameters('location'), variables('deploymentSuffix')), 64)]"
+        
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -2249,6 +2251,39 @@
                 }
             }
         },
+
+        // Creating Role Assignment for AI Search on CosmosDB using CosmosDB Data Reader role for 'ecomm' use case
+        {
+            "condition": "[and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').ecommAiSearchRbacForCosmosDBReaderDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "fbdf93bf-df7d-467e-a4d2-9458aa1360c8"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('cosmosDbRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+
+
         // Creating Role Assignment for Document Intelligence on Storage Account using Storage Blob Data Contributor role
         {
             "condition": "[and(equals(parameters('docSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'))]",
@@ -2863,7 +2898,7 @@
             }
         },
 
-                // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case is being selected
+                // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case and 'Poc' is being selected
                 {
                     "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
                     "type": "Microsoft.Resources/deployments",
