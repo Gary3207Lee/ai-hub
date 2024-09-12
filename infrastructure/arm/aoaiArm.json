@@ -2261,7 +2261,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
