@@ -81,11 +81,16 @@
         "aiSearchPartitions": {
             "type": "string",
             "defaultValue": "1"
+        },
+        "aiUseCaseSelection":{
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
         "name-compliant-azureAiSearch": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-azaisearch'))]",
         "name-compliant-azureAiSearch-pe": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-azaisearch-pe'))]",
+        "name-compliant-azureAiSearch-pe-dns": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-azaisearch-pe-dns'))]",
         "name-compliant-azureAiSearch-asg": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-azaisearch-asg'))]",
         "name-compliant-azureAiSearch-nic": "[concat(variables('name-compliant-azureAiSearch'), '-nic')]",
         "name-compliant-storage": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
@@ -129,7 +134,8 @@
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('aiSearchSystemIdentity'), 'Yes'), variables('aiSearchIdentity'), json('null'))]",
                             "sku": {
-                                "name": "standard"
+
+                                "name": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'standard2', 'standard')]"
                             },
                             "properties": {
                                 "replicaCount": "[int(parameters('aiSearchReplicas'))]",
@@ -205,7 +211,38 @@
                                     }
                                 ]
                             }
-                        }
+                        },
+
+                        {
+                            "condition": "[and(equals(parameters('aiSearchDisableNetworkAccess'), 'Yes'), not(empty(parameters('aiSearchSubnetId'))), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+                            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                            "apiVersion": "2024-01-01",
+                            "name": "[variables('name-compliant-azureAiSearch-pe-dns')]",
+                            "location": "[parameters('aiSearchNwLocation')]",
+                            "properties": {
+                              "privateDnsZoneConfigs": [
+                                {
+                                  "name": "[variables('name-compliant-azureAiSearch-pe-dns')]",
+                                  "properties": {
+                                    "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.search.windows.net')]"
+                                  }
+                                }
+                              ]
+                            },
+                            "dependsOn": [
+                                "[concat('Microsoft.Search/searchServices/', variables('name-compliant-azureAiSearch'))]",
+                                "[concat('Microsoft.Network/applicationSecurityGroups/', variables('name-compliant-azureAiSearch-asg'))]",
+                                "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.search.windows.net')]"
+                              
+                            ]
+                          },
+                          {
+                            "condition": "[parameters('isPrivate')]",
+                            "type": "Microsoft.Network/privateDnsZones",
+                            "apiVersion": "2020-06-01",
+                            "name": "privatelink.search.windows.net",
+                            "location": "global"
+                          }
                     ]
                 }
             }

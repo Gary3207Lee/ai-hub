@@ -1560,6 +1560,10 @@
                     },
                     "aiSearchMonCreation": {
                         "value": "[parameters('aiSearchMonCreation')]"
+                    },
+                    "aiUseCaseSelection":
+                    {
+                        "value": "[parameters('aiUseCaseSelection')]"
                     }
                 }
             }
