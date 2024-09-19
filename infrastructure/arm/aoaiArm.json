@@ -2256,7 +2256,7 @@
             }
         },
 
-        // Creating Role Assignment for AI Search on CosmosDB using CosmosDB Data Reader role for 'ecomm' use case
+        // Creating Role Assignment for AI Search on CosmosDB using CosmosDB Account Reader role for 'ecomm' use case
         {
             "condition": "[and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",

@@ -211,38 +211,8 @@
                                     }
                                 ]
                             }
-                        },
+                        }
 
-                        {
-                            "condition": "[and(equals(parameters('aiSearchDisableNetworkAccess'), 'Yes'), not(empty(parameters('aiSearchSubnetId'))), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
-                            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
-                            "apiVersion": "2024-01-01",
-                            "name": "[variables('name-compliant-azureAiSearch-pe-dns')]",
-                            "location": "[parameters('aiSearchNwLocation')]",
-                            "properties": {
-                              "privateDnsZoneConfigs": [
-                                {
-                                  "name": "[variables('name-compliant-azureAiSearch-pe-dns')]",
-                                  "properties": {
-                                    "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.search.windows.net')]"
-                                  }
-                                }
-                              ]
-                            },
-                            "dependsOn": [
-                                "[concat('Microsoft.Search/searchServices/', variables('name-compliant-azureAiSearch'))]",
-                                "[concat('Microsoft.Network/applicationSecurityGroups/', variables('name-compliant-azureAiSearch-asg'))]",
-                                "[resourceId('Microsoft.Network/privateDnsZones', 'privatelink.search.windows.net')]"
-                              
-                            ]
-                          },
-                          {
-                            "condition": "[and(equals(parameters('aiSearchDisableNetworkAccess'), 'Yes'), not(empty(parameters('aiSearchSubnetId'))))]",
-                            "type": "Microsoft.Network/privateDnsZones",
-                            "apiVersion": "2020-06-01",
-                            "name": "privatelink.search.windows.net",
-                            "location": "global"
-                          }
                     ]
                 }
             }
