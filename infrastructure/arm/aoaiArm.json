@@ -799,8 +799,9 @@
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommEmbeddingModelDeploymentName": "[take(concat(parameters('prefix'), 'ecom-embeddingModel-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommAiSearchRbacForCosmosDBReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosReader-', parameters('location'), variables('deploymentSuffix')), 64)]"
-        
+            "ecommAiSearchRbacForCosmosDBAccountReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosAccountReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommAiSearchRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosDataReader-', parameters('location'), variables('deploymentSuffix')), 64)]"
+            ""
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -2261,7 +2262,7 @@
             "condition": "[and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').ecommAiSearchRbacForCosmosDBReaderDeploymentName]",
+            "name": "[variables('deploymentNames').ecommAiSearchRbacForCosmosDBAccountReaderDeploymentName]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName)]",
@@ -3051,6 +3052,37 @@
                 }
             }
         },
+
+        // Creating Cosmos Db Role Assignment for AI Search on Cosmos DB using Data Contributor role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('dfSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').ecommAiSearchRbacForCosmosDBDataReaderDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgCosmosRbacTemplateUri]"
+                },
+                "parameters": {
+                    "rgName": {
+                        "value": "[variables('resourceNames').rgName]"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('dfSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    },
+                    "cosmosResourceName": {
+                        "value": "[variables('resourceNames').cosmosDbName]"
+                    }
+                }
+            }
+        }
         // Creating Role Assignment for DF on AOAI using Cognitive Services Open AI Contributor role
         {
             "condition": "[and(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('dfSystemIdentity'), 'Yes'), equals(parameters('aiRbacAuthz'), 'Yes'))]",

@@ -138,6 +138,7 @@
                                 "name": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'standard2', 'standard')]"
                             },
                             "properties": {
+                                "semanticSearch": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'standard', 'disabled')]",
                                 "replicaCount": "[int(parameters('aiSearchReplicas'))]",
                                 "partitionCount": "[int(parameters('aiSearchPartitions'))]",
                                 "hostingMode": "default",
