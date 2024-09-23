@@ -3081,7 +3081,7 @@
                     }
                 }
             }
-        }
+        },
         // Creating Role Assignment for DF on AOAI using Cognitive Services Open AI Contributor role
         {
             "condition": "[and(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('dfSystemIdentity'), 'Yes'), equals(parameters('aiRbacAuthz'), 'Yes'))]",
