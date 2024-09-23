@@ -801,7 +801,6 @@
             "ecommEmbeddingModelDeploymentName": "[take(concat(parameters('prefix'), 'ecom-embeddingModel-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAiSearchRbacForCosmosDBAccountReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosAccountReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAiSearchRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosDataReader-', parameters('location'), variables('deploymentSuffix')), 64)]"
-            ""
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
