@@ -3304,7 +3304,7 @@
                 },
                 "parameters": {
                     "privateDnsZoneName": {
-                        "value": "privatelink.table.cosmos.azure.com"
+                        "value": "privatelink.documents.azure.com"
                     },
                     "VnetResourceId": {
                         "value": "[variables('cosmosVnet')]"
