@@ -1578,6 +1578,9 @@
                     },
                     "cosmosaccountName":{
                         "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
+                    },
+                    "openAIName":{
+                        "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiName.value]"
                     }
                 }
             }
