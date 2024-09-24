@@ -3356,7 +3356,7 @@
                         "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchPEnic.value]"
                     },
                     "dnsrecordName": {
-                        "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName.outputs.aisearchName.value]"
+                        "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchName.value]"
                     }
                 }
             }
