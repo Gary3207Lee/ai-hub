@@ -217,7 +217,7 @@
                         {
                             //create shared private link
                             "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
-                            "apiVersion": "2021-04-01",
+                            "apiVersion": "2022-09-01",
                             "name": "[concat(variables('name-compliant-azureAiSearch'), '/', variables('name-compliant-azureAiSearch-sharedpl'))]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
