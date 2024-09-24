@@ -221,8 +221,8 @@
                             "name": "[concat(variables('name-compliant-azureAiSearch'), '/', variables('name-compliant-azureAiSearch-sharedpl'))]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
-                              "[resourceId('Microsoft.Search/searchServices', variables('name-compliant-azureAiSearch'))]",
-                              "[resourceId('Microsoft.Network/privateEndpoints', variables('name-compliant-azureAiSearch-pe'))]"
+                              "[concat('Microsoft.Search/searchServices/', variables('name-compliant-azureAiSearch'))]",
+                              "[concat('Microsoft.Network/privateEndpoints/', variables('name-compliant-azureAiSearch-pe'))]"
                             ],
                             "properties": {
                               "privateLinkResourceId": "[resourceId('Microsoft.Network/privateEndpoints', variables('name-compliant-azureAiSearch-pe'))]",
