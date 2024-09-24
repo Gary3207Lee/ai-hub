@@ -85,6 +85,10 @@
         "aiUseCaseSelection":{
             "type": "string",
             "defaultValue": ""
+        },
+        "cosmosaccountName":{
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -225,8 +229,8 @@
                               "[concat('Microsoft.Network/privateEndpoints/', variables('name-compliant-azureAiSearch-pe'))]"
                             ],
                             "properties": {
-                              "privateLinkResourceId": "[resourceId('Microsoft.Network/privateEndpoints', variables('name-compliant-azureAiSearch-pe'))]",
-                              "groupId": "searchService",
+                              "privateLinkResourceId": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosaccountName'))]",
+                              "groupId": "sql",
                               "requestMessage": "Please approve this connection."
                             }
                           }
