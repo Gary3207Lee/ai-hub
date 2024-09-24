@@ -230,7 +230,7 @@
                             ],
                             "properties": {
                               "privateLinkResourceId": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosaccountName'))]",
-                              "groupId": "sql",
+                              "groupId": "Sql",
                               "requestMessage": "Please approve this connection."
                             }
                           }

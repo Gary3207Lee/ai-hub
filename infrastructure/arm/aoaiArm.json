@@ -1575,6 +1575,9 @@
                     "aiUseCaseSelection":
                     {
                         "value": "[parameters('aiUseCaseSelection')]"
+                    },
+                    "cosmosaccountName":{
+                        "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
                     }
                 }
             }
