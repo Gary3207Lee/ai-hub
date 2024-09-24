@@ -219,5 +219,14 @@
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "aisearchPEnic":{
+            "type": "string",
+            "value": "[variables('name-compliant-azureAiSearch-nic')]"
+        },
+        "aisearchName" :{
+            "type": "string",
+            "value": "[variables(name-compliant-azureAiSearch')]"
+        }
+    }
 }

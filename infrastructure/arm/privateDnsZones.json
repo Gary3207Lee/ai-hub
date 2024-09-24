@@ -15,6 +15,14 @@
         },
         "vnetrgName":{
             "type": "string",
+            "defaultValue": "ftademo"
+        },
+        "NetworkInterfaceName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "dnsrecordName":{
+            "type": "string",
             "defaultValue": ""
         }
     },
@@ -46,7 +54,24 @@
                             "id": "[parameters('VnetResourceId')]"
                         }
                     }
-                }
+                },
+                {
+                    "type": "Microsoft.Network/privateDnsZones/A",
+                    "apiVersion": "2020-06-01",
+                    "name": "[concat(parameters('privateDnsZoneName'), '/', parameters('dnsrecordName'))]",
+                    "location": "global",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
+                    ],
+                    "properties": {
+                      "ttl": 3600,
+                      "aRecords": [
+                        {
+                          "ipv4Address": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('NetworkInterfaceName')), '2021-05-01').ipConfigurations[0].properties.privateIPAddress]"
+                        }
+                      ]
+                    }
+                  }
             ]
         }
     ]

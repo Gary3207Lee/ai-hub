@@ -305,30 +305,20 @@
                                     }
                                 ]
                             }
-                        },
-                        //creating A record in the private DNS zone (for Enhanced eRetail AI Search solution).
-                        {
-                            "type": "Microsoft.Network/privateDnsZones/A",
-                            "apiVersion": "2020-06-01",
-                            "name": "[concat(parameters('privateDnsZoneName'), '/', variables('name-compliant-cosmosDb'))]",
-                            "location": "global",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Network/networkInterfaces', variables('name-compliant-cosmosDb-nic'))]",
-                                "[concat('Microsoft.Network/privateEndpoints/', variables('name-compliant-cosmosDb-pe'))]"
-                            ],
-                            "properties": {
-                                "ttl": 3600,
-                                "aRecords": [
-                                    {
-                                        "ipv4Address": "[reference(resourceId('Microsoft.Network/networkInterfaces', variables('name-compliant-cosmosDb-nic')), '2021-05-01').ipConfigurations[0].properties.privateIPAddress]"
-                                    }
-                                ]
-                            }
                         }
                     ]
                 }
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "cosmosPEnic":{
+            "type": "string",
+            "value": "[variables('name-compliant-cosmosDb-nic')]"
+        },
+        "cosmosdbaccountName" :{
+            "type": "string",
+            "value": "[variables('name-compliant-cosmosDb')]"
+        }
+    }
 }

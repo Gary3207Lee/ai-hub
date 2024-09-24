@@ -3294,7 +3294,8 @@
             "subscriptionId": "[variables('subscriptionId')]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -3309,12 +3310,20 @@
                     "VnetResourceId": {
                         "value": "[variables('cosmosVnet')]"
                     },
-                    "vnetrgName":{
+                    "vnetrgName": {
                         "value": "[variables('cosmosVnetRg')]"
+                    },
+                    "NetworkInterfaceName":{
+                        "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosPEnic.value]"
+                    },
+                    "dnsrecordName": {
+                        "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
                     }
+
                 }
             }
         },
+
         {
             // Creating Private DNS Zones for AI Search and link it to the selected vnet.
             "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
@@ -3324,7 +3333,8 @@
             "subscriptionId": "[variables('subscriptionId')]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -3341,6 +3351,12 @@
                     },
                     "vnetrgName":{
                         "value": "[variables('aisearchVnetRg')]"
+                    },
+                    "NetworkInterfaceName":{
+                        "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchPEnic.value]"
+                    },
+                    "dnsrecordName": {
+                        "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName.outputs.aisearchName.value]"
                     }
                 }
             }
@@ -3354,7 +3370,8 @@
             "subscriptionId": "[variables('subscriptionId')]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureopenAiDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -3371,6 +3388,12 @@
                     },
                     "vnetrgName":{
                         "value": "[variables('openaiVnetRg')]"
+                    },
+                    "NetworkInterfaceName":{
+                        "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiPEnic.value]"
+                    },
+                    "dnsrecordName": {
+                        "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiName.value]"
                     }
                 }
             }
