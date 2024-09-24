@@ -229,7 +229,7 @@
                               "[concat('Microsoft.Network/privateEndpoints/', variables('name-compliant-azureAiSearch-pe'))]"
                             ],
                             "properties": {
-                              "privateLinkResourceId": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosaccountName'))]",
+                              "privateLinkResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.DocumentDB/databaseAccounts/', parameters('cosmosaccountName'))]",
                               "groupId": "Sql",
                               "requestMessage": "Please approve this connection."
                             }
