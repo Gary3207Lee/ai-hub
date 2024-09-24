@@ -226,7 +226,7 @@
         },
         "aisearchName" :{
             "type": "string",
-            "value": "[variables(name-compliant-azureAiSearch')]"
+            "value": "[variables('name-compliant-azureAiSearch')]"
         }
     }
 }
