@@ -74,6 +74,10 @@
             "metadata": {
                 "description": "Provide the resource name of the Azure Monitor workspace where the Azure Open AI instance that will be connected"
             }
+        },
+        "aiUseCaseSelection":{
+            "type": "string",
+            "defaultValue":""
         }
     },
     "variables": {
@@ -161,6 +165,7 @@
                                 "keysMetadata": {}
                             }
                         },
+                        //adding condition for DB name based on the use case. i.e ecomm = catalogDb
                         {
                             "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
                             "apiVersion": "2023-11-15",
@@ -170,10 +175,11 @@
                             ],
                             "properties": {
                                 "resource": {
-                                    "id": "responses"
+                                    "id": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'catalogDb', 'responses')]"
                                 }
                             }
                         },
+                        //adding condition for DB name based on the use case. i.e ecomm = products
                         {
                             "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
                             "apiVersion": "2023-11-15",
@@ -184,7 +190,7 @@
                             ],
                             "properties": {
                                 "resource": {
-                                    "id": "docs",
+                                    "id": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'products', 'docs')]",
                                     "indexingPolicy": {
                                         "indexingMode": "consistent",
                                         "automatic": true,
@@ -217,6 +223,7 @@
                                 }
                             }
                         },
+                        
                         // Consider having this as a separate deployment with the subsequent assignment
                         {
                             "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",

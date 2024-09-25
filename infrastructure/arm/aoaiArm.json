@@ -2812,6 +2812,10 @@
                     },
                     "azMonWorkspaceName": {
                         "value": "[variables('resourceNames').azMonWorkspaceName]"
+                    },
+                    "aiUseCaseSelection":
+                    {
+                        "value": "[parameters('aiUseCaseSelection')]"
                     }
                 }
             }
