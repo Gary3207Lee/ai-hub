@@ -713,6 +713,13 @@
 
     },
     "variables": {
+        "subscriptionId": "[subscription().subscriptionId]",
+        "cosmosVnet": "[concat(split(parameters('cosmosDbSubnetId'), '/subnets/')[0])]",
+        "cosmosVnetRg": "[concat(split(parameters('cosmosDbSubnetId'), '/')[4])]",
+        "aisearchVnet": "[concat(split(parameters('aiSearchSubnetId'), '/subnets/')[0])]",
+        "aisearchVnetRg": "[concat(split(parameters('aiSearchSubnetId'), '/')[4])]",
+        "openaiVnet": "[concat(split(parameters('aiSubnetId'), '/subnets/')[0])]",
+        "openaiVnetRg": "[concat(split(parameters('aiSubnetId'), '/')[4])]",
         "templateUris": {
             "baseUri": "[uri(deployment().properties.templateLink.uri, 'aoaiArm.json')]",
             "managedIdentityUri": "[uri(deployment().properties.templateLink.uri, 'managedIdentity.json')]",
@@ -737,7 +744,8 @@
             "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]",
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
-            "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]"
+            "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
+            "privateDnsZones": "[uri(deployment().properties.templateLink.uri, 'privateDnsZones.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
         "deploymentNames": {
@@ -800,7 +808,10 @@
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommEmbeddingModelDeploymentName": "[take(concat(parameters('prefix'), 'ecom-embeddingModel-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAiSearchRbacForCosmosDBAccountReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosAccountReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommAiSearchRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosDataReader-', parameters('location'), variables('deploymentSuffix')), 64)]"
+            "ecommAiSearchRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-cosmosDataReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "cosmosDnsZoneDeploymentName": "[take(concat('DNSZonescosmos', variables('deploymentSuffix')), 35)]",
+            "aisearchDnsZoneDeploymentName": "[take(concat('DNSZonesaisearch', variables('deploymentSuffix')), 35)]",
+            "openaiDnsZoneDeploymentName": "[take(concat('DNSZonesopenai', variables('deploymentSuffix')), 35)]"
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -1516,7 +1527,8 @@
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').keyVaultDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').storageDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1564,6 +1576,12 @@
                     "aiUseCaseSelection":
                     {
                         "value": "[parameters('aiUseCaseSelection')]"
+                    },
+                    "cosmosaccountName":{
+                        "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
+                    },
+                    "openAiName":{
+                        "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiName.value]"
                     }
                 }
             }
@@ -3281,6 +3299,120 @@
                     },
                     "aiMonCreation": {
                         "value": "[parameters('aiMonCreation')]"
+                    }
+                }
+            }
+        },
+
+        {
+            // Creating Private DNS Zones for cosmosDB and link it to the selected vnet.
+            "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').cosmosDnsZoneDeploymentName]",
+            "subscriptionId": "[variables('subscriptionId')]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').privateDnsZones]"
+                },
+                "parameters": {
+                    "privateDnsZoneName": {
+                        "value": "privatelink.documents.azure.com"
+                    },
+                    "VnetResourceId": {
+                        "value": "[variables('cosmosVnet')]"
+                    },
+                    "vnetrgName": {
+                        "value": "[variables('cosmosVnetRg')]"
+                    },
+                    "NetworkInterfaceName":{
+                        "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosPEnic.value]"
+                    },
+                    "dnsrecordName": {
+                        "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
+                    }
+
+                }
+            }
+        },
+
+        {
+            // Creating Private DNS Zones for AI Search and link it to the selected vnet.
+            "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').aisearchDnsZoneDeploymentName]",
+            "subscriptionId": "[variables('subscriptionId')]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').privateDnsZones]"
+                },
+                "parameters": {
+                    "privateDnsZoneName": {
+                        "value": "privatelink.search.windows.net"
+                    },
+                    "VnetResourceId": {
+                        "value": "[variables('aisearchVnet')]"
+                    },
+                    "vnetrgName":{
+                        "value": "[variables('aisearchVnetRg')]"
+                    },
+                    "NetworkInterfaceName":{
+                        "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchPEnic.value]"
+                    },
+                    "dnsrecordName": {
+                        "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchName.value]"
+                    }
+                }
+            }
+        },
+        {
+            // Creating Private DNS Zones for OpenAI and link it to the selected vnet.
+            "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').openaiDnsZoneDeploymentName]",
+            "subscriptionId": "[variables('subscriptionId')]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureopenAiDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').privateDnsZones]"
+                },
+                "parameters": {
+                    "privateDnsZoneName": {
+                        "value": "privatelink.openai.azure.com"
+                    },
+                    "VnetResourceId": {
+                        "value": "[variables('openaiVnet')]"
+                    },
+                    "vnetrgName":{
+                        "value": "[variables('openaiVnetRg')]"
+                    },
+                    "NetworkInterfaceName":{
+                        "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiPEnic.value]"
+                    },
+                    "dnsrecordName": {
+                        "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiName.value]"
                     }
                 }
             }

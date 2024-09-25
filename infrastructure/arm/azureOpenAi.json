@@ -225,5 +225,14 @@
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "openAiPEnic":{
+            "type": "string",
+            "value": "[variables('name-compliant-azureOpenAi-nic')]"
+        },
+        "openAiName" :{
+            "type": "string",
+            "value": "[variables('name-compliant-azureOpenAi')]"
+        }
+    }
 }

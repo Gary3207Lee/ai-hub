@@ -318,5 +318,14 @@
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "cosmosPEnic":{
+            "type": "string",
+            "value": "[variables('name-compliant-cosmosDb-nic')]"
+        },
+        "cosmosdbaccountName" :{
+            "type": "string",
+            "value": "[variables('name-compliant-cosmosDb')]"
+        }
+    }
 }
