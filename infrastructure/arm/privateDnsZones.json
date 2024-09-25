@@ -15,7 +15,7 @@
         },
         "vnetrgName":{
             "type": "string",
-            "defaultValue": "ftademo"
+            "defaultValue": ""
         },
         "NetworkInterfaceName": {
             "type": "string",
