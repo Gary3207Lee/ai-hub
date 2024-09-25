@@ -2829,6 +2829,18 @@
                     },
                     "azMonWorkspaceName": {
                         "value": "[variables('resourceNames').azMonWorkspaceName]"
+                    },
+                    "cosmosDbNoSqlDatabase":
+                    {
+                        "value": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'catalogDb', 'responses')]"
+                    },
+                    "cosmosDbNoSqlContainer":
+                    {
+                        "value": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'products', 'docs')]"
+                    },
+                    "aiUseCaseSelection":
+                    {
+                        "value": "[parameters('aiUseCaseSelection')]"
                     }
                 }
             }

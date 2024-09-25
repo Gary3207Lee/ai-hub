@@ -139,7 +139,7 @@
                     "resources": [
                         {
                             "type": "Microsoft.Search/searchServices",
-                            "apiVersion": "2022-09-01",
+                            "apiVersion": "2023-11-01",
                             "name": "[variables('name-compliant-azureAiSearch')]",
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('aiSearchSystemIdentity'), 'Yes'), variables('aiSearchIdentity'), json('null'))]",
@@ -147,7 +147,6 @@
                                 "name": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'standard2', 'standard')]"
                             },
                             "properties": {
-                                "semanticSearch": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'standard', 'disabled')]",
                                 "replicaCount": "[int(parameters('aiSearchReplicas'))]",
                                 "partitionCount": "[int(parameters('aiSearchPartitions'))]",
                                 "hostingMode": "default",
@@ -156,7 +155,8 @@
                                 "networkAcls": "[if(equals(parameters('aiSearchDisableNetworkAccess'), 'Yes'), variables('denyFwAcl'), json('null'))]",
                                 "encryptionWithCmk": {
                                     "enforcement": "[if(equals(parameters('aiSearchEncryption'), 'Yes'), 'Enabled', 'Disabled')]"
-                                }
+                                },
+                                "semanticSearch": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), 'standard', 'disabled')]"
                             }
                         },
                         {
