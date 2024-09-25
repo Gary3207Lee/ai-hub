@@ -1580,7 +1580,7 @@
                     "cosmosaccountName":{
                         "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
                     },
-                    "openAIName":{
+                    "openAiName":{
                         "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiName.value]"
                     }
                 }
