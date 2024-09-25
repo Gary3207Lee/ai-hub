@@ -241,7 +241,7 @@
                         {
                             //create shared private link for openAI
                             "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
-                            "apiVersion": "2024-03-01-preview",
+                            "apiVersion": "2023-11-01",
                             "name": "[concat(variables('name-compliant-azureAiSearch'), '/', variables('name-compliant-azureAiSearch-sharedpl-oai'))]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
