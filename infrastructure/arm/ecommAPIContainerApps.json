@@ -151,7 +151,7 @@
                                                 },
                                                 {
                                                 "name": "AppConfiguration__AISearchClient__fields",
-                                                "value": "[[\"id\", \"name\", \"description\", \"price\", \"category\"]"
+                                                "value": "description"
                                                 },
                                                 {
                                                 "name": "ConnectionStrings__OpenAI",
