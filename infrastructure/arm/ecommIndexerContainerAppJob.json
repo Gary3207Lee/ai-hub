@@ -1,0 +1,165 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "metadata": {
+                "description": "Select the naming convertion for the resource group that will be created"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the Azure region for the storage account"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide a prefix for the resources that will be created as part of the storage account"
+            }
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "jobImageName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "aiSearchServiceName":{
+            "type": "string",
+            "defaultValue": ""
+        },
+        "azureCosmosAccountName":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "cosmosDbDatabaseName":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "azureCosmosResourceID":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "azureOpenAIName":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "openAiEmbeddingDeploymentName":{
+               "type": "string",
+            "defaultValue": ""
+        }
+        
+    },
+    "variables": {
+        "name-compliant-acajob": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "location": "[parameters('location')]",
+            "name": "[parameters('rgName')]",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "aca-deployment",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.App/jobs",
+                            "apiVersion": "2024-03-01",
+                            "name": "[variables('name-compliant-acajob')]",
+                            "location": "[parameters('location')]",
+                            "identity": {
+                              "type": "SystemAssigned"
+                            },
+                            "properties": {
+                              "configuration": {
+                                "manualTriggerConfig": {
+                                  "parallelism": 1,
+                                  "replicaCompletionCount": 1
+                                },
+                                "replicaRetryLimit": 1,
+                                "secrets": [],
+                                "replicaTimeout": 300,
+                                "triggerType": "Manual"
+                              },
+                              "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
+                              "template": {
+                                "containers": [
+                                  {
+                                    "name": "python-job",
+                                    "image": "[parameters('jobImageName')]",
+                                    "env": [
+                                      {
+                                        "name": "AZURE_TENANT_ID",
+                                        "value": ""
+                                      },
+                                      {
+                                        "name": "AZURE_CLIENT_ID",
+                                        "value": ""
+                                      },
+                                      {
+                                        "name": "AZURE_SEARCH_ENDPOINT",
+                                        "value": "[format('https://{0}.search.windows.net', parameters('aiSearchServiceName'))]"
+                                      },
+                                      {
+                                        "name": "COSMOS_ENDPOINT",
+                                        "value": "[format('https://{0}.documents.azure.com', parameters('azureCosmosAccountName'))]"
+                                      },
+                                      {
+                                        "name": "COSMOS_DATABASE",
+                                        "value": "[parameters('cosmosDbDatabaseName')]"
+                                      },
+                                      {
+                                        "name": "COSMOS_DB_CONNECTION_STRING",
+                                        "value": "[concat(variables('azureCosmosResourceID'),'Database=',parameters('cosmosDbDatabaseName'))]"
+                                      },
+                                      {
+                                        "name": "OPEN_AI_ENDPOINT",
+                                        "value": "[format('https://{0}.openai.azure.com', parameters('azureOpenAIName'))]"
+                                      },
+                                      {
+                                        "name": "USER_ASSIGNED_IDENTITY_RID",
+                                        "value": ""
+                                      },
+                                      {
+                                        "name": "OPEN_AI_EMBEDDING_DEPLOYMENT_NAME",
+                                        "value": "[parameters('openAiEmbeddingDeploymentName')]"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "dependsOn": [
+                              "[resourceId('Microsoft.Search/searchServices', variables('aiSearchServiceName'))]",
+                              "[resourceId('Microsoft.App/managedEnvironments', variables('containerAppEnvironmentName'))]",
+                              "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDBAccountName'))]",
+                              "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'catalogDb']",
+                              "[resourceId('Microsoft.CognitiveServices/accounts', variables('openAiName'))]"
+                            ]
+                          }
+                    ]
+                }
+            }
+        }
+    ]
+}

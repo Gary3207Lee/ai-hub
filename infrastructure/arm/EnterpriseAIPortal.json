@@ -3095,28 +3095,6 @@
                             },
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')),not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
-
-                        {
-                            "name": "acaZone",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Enable Zone redundancy deployment for Container Apps",
-                            "defaultValue": "Enable (recommended)",
-                            "toolTip": "When enabled Azure Container Apps will be deployed across availability zone.",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Enable (recommended)",
-                                        "value": "true"
-                                    },
-                                    {
-                                        "label": "Disable",
-                                        "value": "false"
-                                    }
-                                ],
-                                "required": true
-                            },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'),equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')) , not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
                         {
                             "name": "acaMonSection",
                             "type": "Microsoft.Common.Section",

@@ -1,0 +1,195 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "metadata": {
+                "description": "Select the naming convertion for the resource group that will be created"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the Azure region for the storage accont"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide a prefix for the resources that will be created as part of the storage account"
+            }
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "environmentId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "apiImageName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "aiSearchServiceName":{
+            "type": "string",
+            "defaultValue": ""
+        },
+        "aiSearchIndexName":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "aiSearchSemanticConfigName":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "aiSearchKnearest":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "azureOpenAIName":{
+               "type": "string",
+            "defaultValue": ""
+        },
+        "openAiGPTDeploymentName":{
+               "type": "string",
+            "defaultValue": ""
+        }
+
+    },
+    "variables": {
+        "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "location": "[parameters('location')]",
+            "name": "[parameters('rgName')]",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "aca-deployment",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.App/containerapps",
+                            "apiVersion": "2024-03-01",
+                            "name": "[variables('name-compliant-aca')]",
+                            "location": "[parameters('location')]",
+                            "identity": {
+                                "type": "SystemAssigned"
+                            },
+                            "tags": {
+                                "Env": "Demo"
+                            },
+                            "properties": {
+                                "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
+                                "configuration": {
+                                    "secrets": [ ],
+                                    "activeRevisionsMode": "Single",
+                                    "ingress": {
+                                        "external": true,
+                                        "targetPort": 8080,
+                                        "transport": "auto",
+                                        "traffic": [
+                                            {
+                                                "weight": 100,
+                                                "latestRevision": true
+                                            }
+                                        ],
+                                        "corsPolicy": {
+                                        "allowedOrigins": [
+                                            "*"
+                                        ],
+                                        "allowCredentials": false,
+                                        "allowedHeaders": [
+                                            "*"
+                                        ],
+                                        "allowedMethods": [
+                                            "GET",
+                                            "POST",
+                                            "PUT",
+                                            "DELETE",
+                                            "OPTIONS"
+                                        ]
+                                        }
+                                    }
+                                },
+                                "template": {
+                                    "containers": [
+                                        {
+                                            "image": "parameters('apiImageName')",
+                                            "name": "ai-search-api-container",
+                                            "resources": {
+                                                "cpu": 0.25,
+                                                "memory": "0.5Gi",
+                                                "ephemeralStorage": "1Gi"
+                                            },
+                                            "env": [
+                                                {
+                                                "name": "AppConfiguration__AISearchClient__endpoint",
+                                                "value": "[format('https://{0}.search.windows.net', parameters('aiSearchServiceName'))]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__AISearchClient__indexName",
+                                                "value": "[parameters('aiSearchIndexName')]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__AISearchClient__fields",
+                                                "value": "[[\"id\", \"name\", \"description\", \"price\", \"category\"]"
+                                                },
+                                                {
+                                                "name": "ConnectionStrings__OpenAI",
+                                                "value": "[format('https://{0}.openai.azure.com', parameters('azureOpenAIName'))]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__AISearchClient__semanticConfigName",
+                                                "value": "[parameters('aiSearchSemanticConfigName')]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__AISearchClient__vectorFieldNames",
+                                                "value": "[[\"description_vectorized\"]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__AISearchClient__nearestNeighbours",
+                                                "value": "[parameters('aiSearchKnearest')]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__OpenAIClient__chatGptDeploymentName'",
+                                                "value": "[parameters('openAiEmbeddingDeploymentName')]"
+                                                },
+                                                {
+                                                "name": "AppConfiguration__OpenAIClient__systemPromptFileName",
+                                                "value": "[parameters('aiSearchKnearest')]"
+                                                }
+                                            ]    
+                                        }
+                                    ],
+                                    "scale": {
+                                        "minReplicas": 1,
+                                        "maxReplicas": 3
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

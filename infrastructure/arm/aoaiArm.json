@@ -691,18 +691,7 @@
             "type": "string",
             "defaultValue": "Consumption"
         },
-        "acaZone":{
-            "type": "bool",
-            "defaultValue": true,
-            "allowedValues": [
-                true,
-                false
-            ],
-            "metadata": {
-                "description": "ACA zone redundancy setup"
-            }
-        },
-        "ecommEmbeddingModelDeploymentName": {
+        "ecommEmbeddingModelName": {
             "type": "string",
             "defaultValue": ""
         }
@@ -740,8 +729,9 @@
             "azureApimTemplateUri": "[uri(deployment().properties.templateLink.uri, 'apimPublic.json')]",
             "aiSampleAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'aiSampleApp.json')]",
             "cosmosDbTemplateUri": "[uri(deployment().properties.templateLink.uri, 'cosmosDb.json')]",
-            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsenv.json')]",
-            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]",
+            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'ecommContainerAppsenv.json')]",
+            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'ecommAPIContainerApps.json')]",
+            "containerAppJobTemplateUri": "[uri(deployment().properties.templateLink.uri, 'ecommIndexerContainerAppJob.json')]",
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
@@ -802,6 +792,7 @@
             "cosmosDbDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "containerAppIndexerJobDeploymentName":"[take(concat(parameters('prefix'), '-acaingestionjob-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -1126,7 +1117,7 @@
                         "value": "[parameters('createDataPlaneRbacDef')]"
                     },
                     "ecommEmbeddingModelDeploymentName": {
-                        "value": "[parameters('ecommEmbeddingModelDeploymentName')]"
+                        "value": "[parameters('ecommEmbeddingModelName')]"
                     }
                 }
             }
@@ -2604,7 +2595,7 @@
             }
         },
 
-        // Deploying Embedding model for Retail use case
+        // Deploying Embedding model for ecomm use case
         {
             "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiUseCaseDeployment'), 'Yes'))]",
             "type": "Microsoft.Resources/deployments",
@@ -2629,7 +2620,7 @@
                         "value": "[parameters('prefix')]"
                     },
                     "aiModelDeploymentName": {
-                        "value": "[parameters('ecommEmbeddingModelDeploymentName')]"
+                        "value": "[parameters('ecommEmbeddingName')]"
                     },
                     "aiModelVersion": {
                         "value": "[variables('resourceNames').aoaiOrchestratorModelName]"
@@ -2940,7 +2931,10 @@
                     "name": "[variables('deploymentNames').acaevDeploymentName]",
                     "location": "[parameters('location')]",
                     "dependsOn": [
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
+                        
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -2973,9 +2967,6 @@
                             "azMonWorkspaceName": {
                                 "value": "[variables('resourceNames').azMonWorkspaceName]"
                             },
-                             "acaZone":{
-                                "value":"[parameters('acaZone')]"
-                            },
                             "acaworkloadprofile":{
                                 "value": "Consumption"
                             }
@@ -2994,7 +2985,8 @@
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommEmbeddingModelDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -3015,13 +3007,87 @@
                             "acaworkloadprofile":{
                                 "value": "Consumption"
                             },
-                            "userAssignedIdentity": {
-                                "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
+                            "apiImageName": {
+                                "value": "belstarr/ai-search-api:v0.0.17"
+                            },
+                            "aiSearchServiceName":{
+                                "value": "[variables('resourceNames').azureAiSearchName]"
+                            },
+                            "aiSearchIndexName":{
+                                "value": "contoso-product-index"
+                            },
+                            "aiSearchSemanticConfigName":{
+                                "value": "product-semantic-config"
+                            },
+                            "aiSearchKnearest":{
+                                "value": "3"
+                            },
+                            "azureOpenAIName":{
+                                "value": "[variables('resourceNames').azureOpenAiName]"
+                            },
+                            "openAiGPTDeploymentName":{
+                                "value": "[concat(parameters('aiModelDeploymentName'),-gpt-4o)]"
                             }
                         }
                     }
                 },
 
+    // Deploying Azure Container Apps Job to ingest the data and create AI Search assets into the primary region if 'ecomm' and 'PoC' use case is being selected
+                {
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').containerAppIndexerJobDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommEmbeddingModelDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').containerAppJobTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            },
+                            "jobImageName": {
+                                "value": "belstarr/ai-search-python-job:v0.0.17"
+                            },
+                            "aiSearchServiceName":{
+                                "value": "[variables('resourceNames').azureAiSearchName]"
+                            },
+                            "azureCosmosAccountName":{
+                                "value": "[variables('resourceNames').cosmosDbName]"
+                            },
+                            "cosmosDbDatabaseName":{
+                                "value": "catalogDb"
+                            },
+                            "azureCosmosResourceID":{
+                                "value": "[variables('resourceIds').cosmosDbResourceId]"
+                            },
+                            "azureOpenAIName":{
+                                "value": "[variables('resourceNames').azureOpenAiName]"
+                            },
+                            "openAiEmbeddingDeploymentName":{
+                                "value": "[concat(parameters('ecommEmbeddingName'),-text-embedding-ada-002)]"
+                            }
+                        }
+                    }
+                },
 
 
 

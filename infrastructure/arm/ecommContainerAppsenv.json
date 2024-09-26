@@ -120,7 +120,7 @@
                                     "internal": false,
                                     "infrastructureSubnetId": "[parameters('acaSubnetId')]"
                                 },
-                                "zoneRedundant": "[parameters('acaZone')]"
+                                "zoneRedundant": "false"
                             }
                         }
                     ]
