@@ -3224,7 +3224,6 @@
                 "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
                 "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
-                "acaZone": "[steps('aiAuxiliarySettings').acaZone]",
                 "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]",
                 "ecommEmbeddingModelDeploymentName": "[steps('aiAuxiliarySettings').ecommEmbeddingModelDeploymentName]"
             },
