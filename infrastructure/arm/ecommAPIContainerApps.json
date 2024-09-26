@@ -163,7 +163,7 @@
                                                 },
                                                 {
                                                 "name": "AppConfiguration__AISearchClient__vectorFieldNames",
-                                                "value": "[[\"description_vectorized\"]"
+                                                "value": "description_vectorized"
                                                 },
                                                 {
                                                 "name": "AppConfiguration__AISearchClient__nearestNeighbours",
