@@ -3026,7 +3026,7 @@
                                 "value": "[variables('resourceNames').azureOpenAiName]"
                             },
                             "openAiGPTDeploymentName":{
-                                "value": "[concat(parameters('aiModelDeploymentName'),-gpt-4o)]"
+                                "value": "[concat(parameters('aiModelDeploymentName'),'-gpt-4o')]"
                             }
                         }
                     }
