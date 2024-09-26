@@ -130,7 +130,7 @@
                                       },
                                       {
                                         "name": "COSMOS_DB_CONNECTION_STRING",
-                                        "value": "[concat(variables('azureCosmosResourceID'),'Database=',parameters('cosmosDbDatabaseName'))]"
+                                        "value": "[concat(parameters('azureCosmosResourceID'),'Database=',parameters('cosmosDbDatabaseName'))]"
                                       },
                                       {
                                         "name": "OPEN_AI_ENDPOINT",
@@ -148,14 +148,7 @@
                                   }
                                 ]
                               }
-                            },
-                            "dependsOn": [
-                              "[resourceId('Microsoft.Search/searchServices', variables('aiSearchServiceName'))]",
-                              "[resourceId('Microsoft.App/managedEnvironments', variables('containerAppEnvironmentName'))]",
-                              "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDBAccountName'))]",
-                              "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'catalogDb']",
-                              "[resourceId('Microsoft.CognitiveServices/accounts', variables('openAiName'))]"
-                            ]
+                            }
                           }
                     ]
                 }

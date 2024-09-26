@@ -792,7 +792,7 @@
             "cosmosDbDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "containerAppIndexerJobDeploymentName":"[take(concat(parameters('prefix'), '-acaingestionjob-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "containerAppIndexerJobDeploymentName":"[take(concat(parameters('prefix'), '-acaindexerjob-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -2620,7 +2620,7 @@
                         "value": "[parameters('prefix')]"
                     },
                     "aiModelDeploymentName": {
-                        "value": "[parameters('ecommEmbeddingName')]"
+                        "value": "[parameters('ecommEmbeddingModelName')]"
                     },
                     "aiModelVersion": {
                         "value": "[variables('resourceNames').aoaiOrchestratorModelName]"
@@ -3083,7 +3083,7 @@
                                 "value": "[variables('resourceNames').azureOpenAiName]"
                             },
                             "openAiEmbeddingDeploymentName":{
-                                "value": "[concat(parameters('ecommEmbeddingName'),-text-embedding-ada-002)]"
+                                "value": "[concat(parameters('ecommEmbeddingModelName'),'-text-embedding-ada-002')]"
                             }
                         }
                     }
