@@ -170,7 +170,7 @@
                                                 "value": "[parameters('aiSearchKnearest')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__chatGptDeploymentName'",
+                                                "name": "AppConfiguration__OpenAIClient__chatGptDeploymentName",
                                                 "value": "[parameters('openAiGPTDeploymentName')]"
                                                 },
                                                 {
