@@ -48,13 +48,6 @@
             "type": "string",
             "defaultValue": "Consumption"
         },
-        "acaZone": {
-            "type": "bool",
-            "defaultValue": "",
-            "metadata": {
-                "description": "ACA zone redundancy setup"
-            }
-        },
         "azMonWorkspaceName": {
             "type": "string",
             "defaultValue": ""
