@@ -74,7 +74,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "aca-deployment",
+            "name": "aca-api-deployment",
             "resourceGroup": "[parameters('rgName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
@@ -133,7 +133,7 @@
                                 "template": {
                                     "containers": [
                                         {
-                                            "image": "parameters('apiImageName')",
+                                            "image": "[parameters('apiImageName')]",
                                             "name": "ai-search-api-container",
                                             "resources": {
                                                 "cpu": 0.25,
