@@ -3225,7 +3225,7 @@
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
                 "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
                 "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]",
-                "ecommEmbeddingModelDeploymentName": "[steps('aiAuxiliarySettings').ecommEmbeddingModelDeploymentName]"
+                "ecommEmbeddingModelName": "[steps('aiAuxiliarySettings').ecommEmbeddingModelDeploymentName]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').resourceScope.location.name]",
