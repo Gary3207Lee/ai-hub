@@ -2931,10 +2931,7 @@
                     "name": "[variables('deploymentNames').acaevDeploymentName]",
                     "location": "[parameters('location')]",
                     "dependsOn": [
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
-                        
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -2984,9 +2981,7 @@
                     "location": "[parameters('location')]",
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommEmbeddingModelDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -3041,9 +3036,7 @@
                     "location": "[parameters('location')]",
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommEmbeddingModelDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
