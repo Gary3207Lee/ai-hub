@@ -224,7 +224,7 @@
                         },
                         {
                             //create shared private link cosmos
-                            "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                            "condition": "[and(equals(parameters('aiSearchDisableNetworkAccess'), 'Yes'), not(empty(parameters('aiSearchSubnetId'))))]",
                             "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
                             "apiVersion": "2022-09-01",
                             "name": "[concat(variables('name-compliant-azureAiSearch'), '/', variables('name-compliant-azureAiSearch-sharedpl-cosmos'))]",
@@ -241,7 +241,7 @@
                         },
                         {
                             //create shared private link for openAI
-                            "condition": "[equals(parameters('aiUseCaseSelection'), 'ecomm')]",
+                            "condition": "[and(equals(parameters('aiSearchDisableNetworkAccess'), 'Yes'), not(empty(parameters('aiSearchSubnetId'))))]",
                             "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
                             "apiVersion": "2023-11-01",
                             "name": "[concat(variables('name-compliant-azureAiSearch'), '/', variables('name-compliant-azureAiSearch-sharedpl-oai'))]",
