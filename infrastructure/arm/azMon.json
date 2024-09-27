@@ -52,7 +52,7 @@
                     "resources": [
                         {
                             "type": "Microsoft.OperationalInsights/workspaces",
-                            "apiVersion": "2021-12-01-preview",
+                            "apiVersion": "2023-09-01",
                             "name": "[variables('name-compliant-azMon')]",
                             "location": "[parameters('location')]",
                             "sku": {
@@ -68,7 +68,7 @@
                         },
                         {
                             "type": "Microsoft.OperationalInsights/workspaces/providers/diagnosticSettings",
-                            "apiVersion": "2021-05-01-preview",
+                            "apiVersion": "2023-09-01",
                             "name": "[concat(variables('name-compliant-azMon'), '/', 'Microsoft.Insights/diag')]",
                             "location": "[parameters('location')]",
                             "dependsOn": [

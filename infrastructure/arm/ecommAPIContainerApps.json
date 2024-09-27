@@ -170,12 +170,12 @@
                                                 "value": "[parameters('aiSearchKnearest')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__chatGptDeploymentName",
+                                                "name": "AppConfiguration__OpenAIClient__chatDeploymentName",
                                                 "value": "[parameters('openAiGPTDeploymentName')]"
                                                 },
                                                 {
                                                 "name": "AppConfiguration__OpenAIClient__systemPromptFileName",
-                                                "value": "[parameters('aiSearchKnearest')]"
+                                                "value": "system_prompt.txt"
                                                 }
                                             ]    
                                         }
