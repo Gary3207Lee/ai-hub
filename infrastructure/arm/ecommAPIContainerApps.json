@@ -59,8 +59,8 @@
 
     },
     "variables": {
-        "name-compliant-aca": "[take(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'), 23)]",
-        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
+        "name-compliant-aca": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
+        "name-compliant-acame": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-acame'))]"
     },
     "resources": [
         {

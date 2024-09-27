@@ -844,8 +844,8 @@
             "appName": "[concat(parameters('prefix'), '-', parameters('location'), '-wa')]",
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
-            "apiAcaName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'), 23)]",
-            "indexerJobAcaName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-indexerjobaca'), 23)]"
+            "apiAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
+            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
