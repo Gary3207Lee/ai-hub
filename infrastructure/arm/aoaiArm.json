@@ -2419,7 +2419,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/jobs', variables('resourceNames').indexerJobAcaName), '2024-03-01', 'full').identity.principalId, '')]"
                     }
                 }
             }
@@ -2447,7 +2447,7 @@
                         "value": "[variables('resourceNames').rgName]"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), reference(resourceId('Microsoft.App/jobs', variables('resourceNames').indexerJobAcaName), '2024-03-01', 'full').identity.principalId, '')]"
                     },
                     "cosmosResourceName": {
                         "value": "[variables('resourceNames').cosmosDbName]"
@@ -2481,7 +2481,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiSearchRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('aiSearchRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/jobs', variables('resourceNames').indexerJobAcaName), '2024-03-01', 'full').identity.principalId, '')]"
                     }
                 }
             }
@@ -2512,7 +2512,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiSearchRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('aiSearchRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/containerApps', variables('resourceNames').apiAcaName), '2024-03-01', 'full').identity.principalId, '')]"
                     }
                 }
             }
@@ -2543,7 +2543,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('aiRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/containerApps', variables('resourceNames').apiAcaName), '2024-03-01', 'full').identity.principalId, '')]"
                     }
                 }
             }
