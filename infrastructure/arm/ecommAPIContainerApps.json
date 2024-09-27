@@ -59,8 +59,7 @@
 
     },
     "variables": {
-        "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
-        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-aca": "[take(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'), 23)]",
         "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
     },
     "resources": [

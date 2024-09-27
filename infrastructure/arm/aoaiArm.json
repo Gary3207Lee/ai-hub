@@ -844,7 +844,8 @@
             "appName": "[concat(parameters('prefix'), '-', parameters('location'), '-wa')]",
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
-            "acaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-aca'))]"
+            "apiAcaName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'), 23)]",
+            "indexerJobAcaName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-indexerjobaca'), 23)]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
@@ -857,8 +858,8 @@
             "apimResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.ApiManagement/service/', variables('resourceNames').apimName)]",
             "appResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').appRgName, '/providers/Microsoft.Web/sites/', variables('resourceNames').appName)]",
             "videoIndexerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.VideoIndexer/accounts/', variables('resourceNames').videoIndexerName)]",
-            "ecommAcaAppContainerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/containerapps/', variables('resourceNames').videoIndexerName)]",
-            "ecommAcaIndexerJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').videoIndexerName)]",
+            "ecommAcaAppContainerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/containerapps/', variables('resourceNames').apiAcaName)]",
+            "ecommAcaIndexerJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').indexerJobAcaName)]"
 
         },
         "apiVersions": {
