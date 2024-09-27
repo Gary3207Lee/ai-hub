@@ -871,7 +871,8 @@
             "azAiDocumentIntelligence": "2022-03-01",
             "azureAiSearch": "2022-09-01",
             "webSites": "2021-02-01",
-            "videoIndexer": "2024-01-01"
+            "videoIndexer": "2024-01-01",
+            "acaApps": "2024-03-01"
         },
         // Endpoint references
         "aoaiEndpoint1": "[toLower(concat('https://', parameters('prefix'), '-', parameters('location'), '-azopenai', '.openai.azure.com/'))]",
@@ -1942,7 +1943,7 @@
                         "value": "[variables('resourceIds').ecommAcaIndexerJobResourceId]"
                     },
                     "apiVersion": {
-                        "value": "2024-03-01"
+                        "value": "[variables('apiVersions').acaApps]"
                     }
                 }
             }
@@ -1969,7 +1970,7 @@
                         "value": "[variables('resourceIds').ecommAcaAppContainerResourceId]"
                     },
                     "apiVersion": {
-                        "value": "2024-03-01"
+                        "value": "[variables('apiVersions').acaApps]"
                     }
                 }
             }
