@@ -806,7 +806,7 @@
             "rgAzureAcaIndexerJobObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-acajob-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureAcaAPIObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-acaApi-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommIndexerJobAcaRbacForCosmosDBAccountReaderDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-cosmosAccountReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommIndexerJobAcaRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-cosmosAccountReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommIndexerJobAcaRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-cosmosDataContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommIndexerJobAcaRbacForAISearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-aisearchcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAPIAcaRbacForAISearchIndexReaderDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-searchcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAPIAcaRbacForOpenAIContributorDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-openaicontributor-', parameters('location'), variables('deploymentSuffix')), 64)]"
