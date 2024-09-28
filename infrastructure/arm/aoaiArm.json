@@ -2357,7 +2357,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('cosmosDbRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('aiSearchSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -2385,7 +2385,7 @@
                         "value": "[variables('resourceNames').rgName]"
                     },
                     "principalId": {
-                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('dfSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiSearchSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     },
                     "cosmosResourceName": {
                         "value": "[variables('resourceNames').cosmosDbName]"
@@ -2419,7 +2419,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/jobs', variables('resourceNames').indexerJobAcaName), '2024-03-01', 'full').identity.principalId, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -3273,7 +3273,7 @@
                                 "value": "[variables('resourceNames').azureOpenAiName]"
                             },
                             "openAiGPTDeploymentName":{
-                                "value": "[concat(parameters('aiModelDeploymentName'),'-gpt-4o')]"
+                                "value": "[concat(parameters('aiModelDeploymentName'),'-',parameters('aiModelVersion'))]"
                             }
                         }
                     }
