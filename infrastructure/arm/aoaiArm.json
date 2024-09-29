@@ -2419,7 +2419,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
