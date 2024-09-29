@@ -2447,7 +2447,7 @@
                         "value": "[variables('resourceNames').rgName]"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiUseCaseSelection'), 'ecomm'), reference(resourceId('Microsoft.App/jobs', variables('resourceNames').indexerJobAcaName), '2024-03-01', 'full').identity.principalId, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
                     },
                     "cosmosResourceName": {
                         "value": "[variables('resourceNames').cosmosDbName]"
@@ -2481,7 +2481,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiSearchRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/jobs', variables('resourceNames').indexerJobAcaName), '2024-03-01', 'full').identity.principalId, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -2512,13 +2512,13 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('aiSearchRbacAuthz'), 'Yes'), reference(resourceId('Microsoft.App/containerApps', variables('resourceNames').apiAcaName), '2024-03-01', 'full').identity.principalId, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
         },
 
-        //ecommRbac: Creating Role Assignment for API aca on AI Search indexer reader for 'ecomm' use case
+        //ecommRbac: Creating Role Assignment for API aca on Azure OpenAI Contributor for 'ecomm' use case
         {
             "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",

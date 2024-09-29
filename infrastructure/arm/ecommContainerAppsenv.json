@@ -98,8 +98,8 @@
                                 "appLogsConfiguration": {
                                     "destination": "log-analytics",
                                     "logAnalyticsConfiguration": {
-                                        "customerId": "[reference(variables('logAnalyticsWorkspaceId'), '2020-08-01').customerId]",
-                                        "sharedKey": "[listKeys(variables('logAnalyticsWorkspaceId'), '2020-08-01').primarySharedKey]"
+                                        "customerId": "[reference(variables('logAnalyticsWorkspaceId'), '2023-09-01').customerId]",
+                                        "sharedKey": "[listKeys(variables('logAnalyticsWorkspaceId'), '2023-09-01').primarySharedKey]"
                                     }
                                 },
                                 "workloadProfiles": [
