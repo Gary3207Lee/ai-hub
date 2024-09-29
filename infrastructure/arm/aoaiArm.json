@@ -1929,6 +1929,10 @@
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName]",
             "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppIndexerJobDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -2417,7 +2421,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(equals(parameters('cosmosDbRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
