@@ -1924,7 +1924,7 @@
 
         //ecomm: Retrieving objectId of the ACA Index Job System Identity
         {
-            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "condition": "[and(equals(parameters('aiSampleAppDeployment'), 'No'), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName]",
@@ -1953,7 +1953,7 @@
 
         //ecomm: Retrieving objectId of the ACA API App System Identity
         {
-            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "condition": "[and(equals(parameters('aiSampleAppDeployment'), 'No'), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName]",
