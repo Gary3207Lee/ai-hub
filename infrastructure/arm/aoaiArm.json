@@ -3583,6 +3583,9 @@
                     },
                     "aiMonCreation": {
                         "value": "[parameters('aiMonCreation')]"
+                    },
+                    "cosmosdbLocation": {
+                        "value": "[parameters('location')]"
                     }
                 }
             }
@@ -3611,9 +3614,6 @@
                     },
                     "VnetResourceId": {
                         "value": "[variables('cosmosVnet')]"
-                    },
-                    "vnetrgName": {
-                        "value": "[variables('cosmosVnetRg')]"
                     },
                     "NetworkInterfaceName":{
                         "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosPEnic.value]"
@@ -3650,9 +3650,6 @@
                     "VnetResourceId": {
                         "value": "[variables('aisearchVnet')]"
                     },
-                    "vnetrgName":{
-                        "value": "[variables('aisearchVnetRg')]"
-                    },
                     "NetworkInterfaceName":{
                         "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchPEnic.value]"
                     },
@@ -3685,9 +3682,6 @@
                     },
                     "VnetResourceId": {
                         "value": "[variables('openaiVnet')]"
-                    },
-                    "vnetrgName":{
-                        "value": "[variables('openaiVnetRg')]"
                     },
                     "NetworkInterfaceName":{
                         "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiPEnic.value]"
