@@ -1931,7 +1931,8 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppIndexerJobDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1959,7 +1960,8 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2375,8 +2377,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2407,8 +2408,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2439,8 +2439,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2471,8 +2470,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2503,8 +2501,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2535,8 +2532,7 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
