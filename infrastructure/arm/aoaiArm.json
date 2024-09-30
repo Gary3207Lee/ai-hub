@@ -845,7 +845,7 @@
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
             "apiAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
-            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-acajob'))]"
+            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-jobaca'))]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
@@ -1924,12 +1924,13 @@
 
         //ecomm: Retrieving objectId of the ACA Index Job System Identity
         {
-            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "condition": "[and(equals(parameters('aiSampleAppDeployment'), 'No'), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppIndexerJobDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
             ],
@@ -1952,14 +1953,16 @@
 
         //ecomm: Retrieving objectId of the ACA API App System Identity
         {
-            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "condition": "[and(equals(parameters('aiSampleAppDeployment'), 'No'), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+                
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2343,7 +2346,8 @@
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -3612,16 +3616,15 @@
                     "VnetResourceId": {
                         "value": "[variables('cosmosVnet')]"
                     },
-                    "vnetrgName": {
-                        "value": "[variables('cosmosVnetRg')]"
-                    },
                     "NetworkInterfaceName":{
                         "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosPEnic.value]"
                     },
                     "dnsrecordName": {
                         "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
+                    },
+                    "cosmosdbLocation": {
+                        "value": "[parameters('location')]"
                     }
-
                 }
             }
         },
@@ -3649,9 +3652,6 @@
                     },
                     "VnetResourceId": {
                         "value": "[variables('aisearchVnet')]"
-                    },
-                    "vnetrgName":{
-                        "value": "[variables('aisearchVnetRg')]"
                     },
                     "NetworkInterfaceName":{
                         "value": "[reference(variables('deploymentNames').azureAiSearchDeploymentName).outputs.aisearchPEnic.value]"
@@ -3685,9 +3685,6 @@
                     },
                     "VnetResourceId": {
                         "value": "[variables('openaiVnet')]"
-                    },
-                    "vnetrgName":{
-                        "value": "[variables('openaiVnetRg')]"
                     },
                     "NetworkInterfaceName":{
                         "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiPEnic.value]"
