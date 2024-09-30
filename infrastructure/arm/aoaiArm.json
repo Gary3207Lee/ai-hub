@@ -1921,65 +1921,6 @@
                 }
             }
         },
-
-        //ecomm: Retrieving objectId of the ACA Index Job System Identity
-        {
-            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName]",
-            "resourceGroup": "[variables('resourceNames').rgName]",
-            "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppIndexerJobDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('templateUris').rgAzureObjectId]"
-                },
-                "parameters": {
-                    "resourceId": {
-                        "value": "[variables('resourceIds').ecommAcaIndexerJobResourceId]"
-                    },
-                    "apiVersion": {
-                        "value": "[variables('apiVersions').acaApps]"
-                    }
-                }
-            }
-        },
-
-        //ecomm: Retrieving objectId of the ACA API App System Identity
-        {
-            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName]",
-            "resourceGroup": "[variables('resourceNames').rgName]",
-            "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
-                
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('templateUris').rgAzureObjectId]"
-                },
-                "parameters": {
-                    "resourceId": {
-                        "value": "[variables('resourceIds').ecommAcaAppContainerResourceId]"
-                    },
-                    "apiVersion": {
-                        "value": "[variables('apiVersions').acaApps]"
-                    }
-                }
-            }
-        },
         // Consider to remove this deployment
         {
             "condition": "[equals(parameters('aiSystemIdentity'), 'Yes')]",
@@ -3692,6 +3633,64 @@
                     },
                     "dnsrecordName": {
                         "value": "[reference(variables('deploymentNames').azureopenAiDeploymentName).outputs.openAiName.value]"
+                    }
+                }
+            }
+        },
+                //ecomm: Retrieving objectId of the ACA Index Job System Identity
+        {
+            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppIndexerJobDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgAzureObjectId]"
+                },
+                "parameters": {
+                    "resourceId": {
+                        "value": "[variables('resourceIds').ecommAcaIndexerJobResourceId]"
+                    },
+                    "apiVersion": {
+                        "value": "[variables('apiVersions').acaApps]"
+                    }
+                }
+            }
+        },
+
+        //ecomm: Retrieving objectId of the ACA API App System Identity
+        {
+            "condition": "[and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+                
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgAzureObjectId]"
+                },
+                "parameters": {
+                    "resourceId": {
+                        "value": "[variables('resourceIds').ecommAcaAppContainerResourceId]"
+                    },
+                    "apiVersion": {
+                        "value": "[variables('apiVersions').acaApps]"
                     }
                 }
             }
