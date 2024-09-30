@@ -58,7 +58,7 @@
             "gpt-4o": "gpt-4o"
         },
         "skuCapacity": {
-            "text-embedding-ada-002": 1,
+            "text-embedding-ada-002": 10,
             "gpt-4-vision": 1,
             "gpt-4-32k": 1,
             "gpt-4": 1,
