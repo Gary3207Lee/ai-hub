@@ -27,7 +27,7 @@
         }
     },
     "variables": {
-        "cosmosdbAdditionalArecordName": "[toLower(concat(parameters('dnsrecordName'), '-', parameters('cosmosdbLocation'), parameters('privateDnsZoneName')))]"
+        "cosmosdbAdditionalArecordName": "[toLower(concat(parameters('dnsrecordName'), '-', parameters('cosmosdbLocation')))]"
     },
     "resources": [
         {
@@ -74,6 +74,7 @@
                     }
                 },
                 {
+                 "condition":"[equals(parameters('privateDnsZoneName'), 'privatelink.documents.azure.com')]",
                     "type": "Microsoft.Network/privateDnsZones/A",
                     "apiVersion": "2020-06-01",
                     "name": "[concat(parameters('privateDnsZoneName'), '/', variables('cosmosdbAdditionalArecordName'))]",

@@ -845,7 +845,7 @@
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
             "apiAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
-            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-acajob'))]"
+            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-jobaca'))]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
@@ -3587,9 +3587,6 @@
                     },
                     "aiMonCreation": {
                         "value": "[parameters('aiMonCreation')]"
-                    },
-                    "cosmosdbLocation": {
-                        "value": "[parameters('location')]"
                     }
                 }
             }
@@ -3624,8 +3621,10 @@
                     },
                     "dnsrecordName": {
                         "value": "[reference(variables('deploymentNames').cosmosDbDeploymentName).outputs.cosmosdbaccountName.value]"
+                    },
+                    "cosmosdbLocation": {
+                        "value": "[parameters('location')]"
                     }
-
                 }
             }
         },
