@@ -3261,7 +3261,7 @@
                                 "value": "Consumption"
                             },
                             "apiImageName": {
-                                "value": "belstarr/ai-search-api:v0.0.17"
+                                "value": "belstarr/ai-search-api:v0.0.19"
                             },
                             "aiSearchServiceName":{
                                 "value": "[variables('resourceNames').azureAiSearchName]"
@@ -3316,7 +3316,7 @@
                                 "value": "Consumption"
                             },
                             "jobImageName": {
-                                "value": "belstarr/ai-search-python-job:v0.0.17"
+                                "value": "belstarr/ai-search-python-job:v0.0.19"
                             },
                             "aiSearchServiceName":{
                                 "value": "[variables('resourceNames').azureAiSearchName]"
