@@ -153,7 +153,7 @@
                                                 "value": "description"
                                                 },
                                                 {
-                                                "name": "ConnectionStrings__OpenAI",
+                                                "name": "AppConfiguration__OpenAIClient__endpoint",
                                                 "value": "[format('https://{0}.openai.azure.com', parameters('azureOpenAIName'))]"
                                                 },
                                                 {
@@ -169,11 +169,11 @@
                                                 "value": "[parameters('aiSearchKnearest')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__chatDeploymentName",
+                                                "name": "AppConfiguration__OpenAIClient__Deployment",
                                                 "value": "[parameters('openAiGPTDeploymentName')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__systemPromptFileName",
+                                                "name": "AppConfiguration__OpenAIClient__SystemPromptFile",
                                                 "value": "system_prompt.txt"
                                                 }
                                             ]    
@@ -190,5 +190,13 @@
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+
+        "apiFQDN": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.App/containerapps/', variables('name-compliant-aca'), '2024-03-01').configuration.ingress.fqdn)]"
+        }
+
+    }
 }

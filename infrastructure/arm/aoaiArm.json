@@ -735,7 +735,9 @@
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
-            "privateDnsZones": "[uri(deployment().properties.templateLink.uri, 'privateDnsZones.json')]"
+            "privateDnsZones": "[uri(deployment().properties.templateLink.uri, 'privateDnsZones.json')]",
+            "ecommWebStorageTempalteUri": "[uri(deployment().properties.templateLink.uri, 'ecommStorageAccount.json')]",
+            "ecommWebJobTemplateUri": "[uri(deployment().properties.templateLink.uri, 'ecommStaticWebsiteContainerAppJob.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
         "deploymentNames": {
@@ -805,12 +807,15 @@
             "openaiDnsZoneDeploymentName": "[take(concat('DNSZonesopenai', variables('deploymentSuffix')), 35)]",
             "rgAzureAcaIndexerJobObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-acajob-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureAcaAPIObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-acaApi-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgAzureAcaWebJobObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-acawebjob-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommIndexerJobAcaRbacForCosmosDBAccountReaderDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-cosmosAccountReader-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommIndexerJobAcaRbacForCosmosDBDataReaderDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-cosmosDataContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommIndexerJobAcaRbacForAISearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-aisearchcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAPIAcaRbacForAISearchIndexReaderDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-searchcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommAPIAcaRbacForOpenAIContributorDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-openaicontributor-', parameters('location'), variables('deploymentSuffix')), 64)]"
-    
+            "ecommAPIAcaRbacForOpenAIContributorDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-openaicontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommWebJobRbacForStorageContributorDeploymentName": "[take(concat(parameters('prefix'), '-webjob-rbac-for-stgdatacontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommStaticWebAppStorageDeploymentName": "[take(concat(parameters('prefix'), '-staticwebapp-storage-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommStaticWebAppJobDeploymentName": "[take(concat(parameters('prefix'), '-staticwebapp-job-', parameters('location'), variables('deploymentSuffix')), 64)]"
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -818,6 +823,16 @@
             "embeddingModelName": "text-embedding-ada-002",
             "gptDeploymentName": "hub-gpt4",
             "gptModelName": "gpt-4"
+        },
+        "ecommSampleVariables":{
+            "ecommCosmosDatabaseName": "catalogDb",
+            "staticWebAppContainerName": "product-search-webapp",
+            "apiContainerImageName": "belstarr/ai-search-api:v0.0.20",
+            "indexerJobContainerImageName": "belstarr/ai-search-python-job:v0.0.20",
+            "staticWebAppJobContainerImageName": "belstarr/ai-search-spa-job:v0.0.19",
+            "ecommAISearchIndexName": "contoso-product-index",
+            "ecommAISearchSemanticConfigName":"product-semantic-config",
+            "ecommVectorSearchKNearest":"3"
         },
         "visionAzureOpenAISystemMessage": "WW91ciB0YXNrIGlzIHRvIGV4dHJhY3QgdGhlIHNjZW5lcyB0aGF0IGlzIHN1aXRhYmxlIGZvciBtYWtpbmcgc2hvcnQgdmlkZW9zIHRoYXQgY2FuIGdvIHZpcmFsIG9uIHNvY2lhbCBtZWRpYS4KWW91IGhhdmUgdG8gcmF0ZSB0aGVtIGluIHByb2JhYmlsaXR5IG9mIGdvaW5nIHZpcmFsIDEgdG8gMTAsIDEwIGJlaW5nIHRoZSBtb3N0IGxpa2VseS4KUGxlYXNlIHJhdGUgZWFjaCBjbGlwIGluZGVwZW5kZW50bHkgYnV0IG11c3QgaW4gdGhlIGNvbnRleHQgb2YgdGhlIGZ1bGwgdmlkZW8uCgpIZXJlIGFyZSB0aGUgc3RlcHMgeW91IHNob3VsZCBmb2xsb3c6Ci0tLS0tLS0KMS4gUHJvY2VzcyBhbGwgdGhlIHNjZW5lcyBpbiB0aGUgdmlkZW8gdG8gdW5kZXJzdGFuZCB0aGUgY29udGV4dC4KMi4gUHJvY2VzcyBlYWNoIHNjZW5lIHRvIGZpbmQgdGhlIHJlbGV2YW5jZSBhbmQgcHJvYmFiaWxpdHkgb2YgZ29pbmcgdmlyYWwgYmFzZWQgb24gY3JpdGVyaWEvaGludHMgbWVudGlvbmVkIGJlbG93IGFuZCByYXRlIHRoZW0uCjMuIFJhdGUgdGhlbSBpbiAxIHRvIDEwLCAxMCBiZWluZyB0aGUgbW9zdCBsaWtlbHkgYnV0IHVzZSB0aGUgcmF0aW5nIG9ubHkgb25jZS4gVGhlcmUgc2hvdWxkIG5vdCBiZSBhbnkgZHVwbGljYXRlIHJhdGluZ3MuCgppbnB1dDoKWW91ciBpbnB1dCB3aWxsIGJlIGEgc3RydWN0dXJlZCBhcnJheSBjb250YWluaW5nIG9uZSBvciBtb3JlIHNjZW5lcy4gRWFjaCBzY2VuZSB3aWxsIGhhdmUgdGhlIGZvbGxvd2luZyBzdHJ1Y3R1cmU6CiAgICAtaWQgOiBzY2VuZSBpZAogICAgLXN0YXJ0OiBzdGFydCB0aW1lIG9mIHRoZSBzY2VuZQogICAgLWVuZDogZW5kIHRpbWUgb2YgdGhlIHNjZW5lCiAgICAtY29udGVudDogY29udGVudCBvZiB0aGUgc2VjdGlvbi4gWW91IGhhdmUgdG8gZGVlcCBpbnNwZWN0IHRoZSB0ZXh0IGhlcmUgdG8gZmluZCB0aGUgc3VpdGFibGUgY2xpcHMuCiAgICAgICAgICAgIFRoaXMgaXMgYSBzaW5nbGUgc3RyaW5nIGhvd2V2ZXIgaXQgd2lsbCBoYXZlIG11bHRpcGxlIHRhZ3MgaW4gc3F1YXJlIGJyYWNrZXRzLgogICAgICAgICAgICBZb3UgaGF2ZSB0byBmaW5kIHRoZSBzdWl0YWJsZSBjbGlwIGJhc2VkIG9uIHRoZSBjb250ZW50IGFuZCB0YWdzLgogICAgICAgICAgICBbVmlkZW8gdGl0bGVdIHdpbGwgYmUgdGhlIHRpdGxlIG9mIHRoZSB2aWRlbwogICAgICAgICAgICBbVGFnc10gIHdpbGwgYmUgdGhlIHRhZ3Mgb2YgdGhlIHZpZGVvCiAgICAgICAgICAgIFtEZXRlY3RlZCBPYmplY3RzXSAgd2lsbCBiZSB0aGUgb2JqZWN0cyBkZXRlY3RlZCBpbiB0aGUgdmlkZW8KICAgICAgICAgICAgW09DUl0gd2lsbCBiZSB0aGUgdGV4dCBkZXRlY3RlZCBpbiB0aGUgdmlkZW8KICAgICAgICAgICAgW0tub3duIHBlb3BsZV0gIHdpbGwgYmUgdGhlIGtub3duIHBlb3BsZSBpbiB0aGUgdmlkZW8KICAgICAgICAgICAgW1RyYW5zY3JpcHRdIHdpbGwgYmUgdGhlIHRyYW5zY3JpcHQgb2YgdGhlIHNjZW5lCgpZb3UgaGF2ZSB0byBjb21iaW5lIGFsbCB0aGUgaW5mb3JtYXRpb24gcHJlc2VudCBpbiB0aGUgY29udGVudCB1c2luZyBhbGwgdGhlIGRpZmZlcmVudCB0YWdzIGFuZCB0aGVuIGZpbmQgdGhlIHN1aXRhYmxlIGNsaXBzIGJhc2VkIG9uIHRoYXQuCgp7CiAgICAic3VtbWFyeSI6ICJUaGlzIGlzIHRoZSBzdW1tYXJ5IG9mIHRoZSB3aG9sZSB2aWRlbyIsCiAgICAic2NlbmVzIjogWwogICAgICAgIHsKICAgICAgICAgICAgImlkIjogInNjZW5lIGlkIiwKICAgICAgICAgICAgInRpdGxlIjogInNob3J0IHRpdGxlIG9mIHRoZSBzY2VuZSBiYXNlZCBvbiBzdW1tYXJ5IiwKICAgICAgICAgICAgInJhdGluZyI6IDEwLAogICAgICAgICAgICAicmVhc29uaW5nIjogIlRoaXMgc2NlbmUgaXMgc3VpdGFibGUgZm9yIG1ha2luZyBzaG9ydCB2aWRlb3MgdGhhdCBjYW4gZ28gdmlyYWwgb24gc29jaWFsIG1lZGlhIGJlY2F1c2UuLi4iLAogICAgICAgICAgICAiZGVzY3JpcHRpb24iOiAiYnJpZWYgZGVzY3JpcHRpb24gb2Ygd2hhdCB0aGlzIHNjZW5lIGlzIGFib3V0IiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAic3RhcnQgdGltZSBvZiB0aGUgc2NlbmUiLAogICAgICAgICAgICAiZW5kX3RpbWUiOiAiZW5kIHRpbWUgb2YgdGhlIHNjZW5lIiwKICAgICAgICAgICAgInRyYW5zY3JpcHQiOiAiVGhpcyBpcyB0aGUgdHJhbnNjcmlwdCBvZiB0aGUgc2NlbmUiLAogICAgICAgICAgICAidHJhbnNsYXRpb24iOiAiVHJhbnNsYXRpb24gb2YgdGhlIHRyYW5zY3JpcHQgdG8gRW5nbGlzaCIKICAgICAgICB9CiAgICBdCn0KCi0gWW91ciBvdXRwdXQgbXVzdCBiZSBpbiBzdHJpY3QgSlNPTiBmb3JtYXQuIERvbid0IGluY2x1ZGUgYW55IGNvbW1lbnRzIG9yIG90aGVyIGNoYXJhY3RlcnMgdGhhdCBhcmUgbm90IHBhcnQgb2YgdGhlIEpTT04gZm9ybWF0LgotIFRyYW5zbGF0ZSB0aGUgdGhlIG91dHB1dCB0byBFbmdsaXNoIGlmIHRoZSBzb3VyY2UgdHJhbnNjcmlwdCBpcyBub3QgaW4gRW5nbGlzaC4KLSBZb3UgaWRlbnRpZnkgdG9wIHNjZW5lcyBiYXNlZCBvbiB0aGUgcmF0aW5nIHRoYXQgYXJlIHN1aXRhYmxlIGZvciBtYWtpbmcgc2hvcnQgdmlkZW9zIHRoYXQgY2FuIGdvIHZpcmFsIGFuZCBzb3J0IGl0IGJ5IHJhdGluZy4KLSBZb3UgYXJlIG5vdCBhbGxvd2VkIHRvIGFkZCBuZXcgbGluZSBjaGFyYWN0ZXJzIGluIHRoZSB0cmFuc2NyaXB0LgotIERvIG5vdCBpbmNsdWRlIGluZm9ybWF0aW9uIHRoYXQgaXMgbm90IHBhcnQgb2YgdGhlIGlucHV0IHByb3ZpZGVkLgotIE5vdCBhbGwgdGhlIGNvbnRlbnQgd2lsbCBoYXZlIHRoZSBzdWl0YWJsZSBjbGlwcy4gSWYgeW91IGNhbm5vdCBmaW5kIGl0IG9yIGRldGVybWluZSB0aGUgYXBwbGljYWJpbGl0eSBvZiB0aGUgc2NlbmUsIGNvbnRpbnVlIHdpdGggcHJvY2Vzc2luZyB0aGUgbmV4dCBzY2VuZS4KLSBZb3UgaGF2ZSB0byBwYXJzZSBlbnRpcmUgY29udGVudCB0byBmaW5kIHRoZSBzdWl0YWJsZSBjbGlwcyBhbmQgcmFuayB0aGVtIGJhc2VkIG9uIHByb2JhYmlsaXR5IG9mIGdvaW5nIHZpcmFsLgotIFlvdSBoYXZlIHRvIHByb3ZpZGUgdGhlIHJhdGluZyBvZiB0aGUgcHJvYmFiaWxpdHkgb2YgdGhlIGNsaXAgZ29pbmcgdmlyYWwgMSB0byAxMCwgMTAgYmVpbmcgdGhlIG1vc3QgbGlrZWx5LiBQbGVhc2UgcmF0ZSBlYWNoIGNsaXAgaW5kZXBlbmRlbnRseS4KLSB5b3UgaGF2ZSB0byBwcm92aWRlIHJlYXNvbmluZyBmb3IgdGhlIHJhdGluZy4KLSBvcmRlciB5b3VyIHJlc3BvbnNlIGJhc2VkIG9uIHJhdGluZ3Mu",
         "useCasesMap": {
@@ -845,7 +860,9 @@
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
             "apiAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
-            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-jobaca'))]"
+            "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-jobaca'))]",
+            "statisWebAppStorageName": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''),'webappst', parameters('location')), 23))]",
+            "statisWebAppJobName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-webjobaca'))]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
@@ -859,8 +876,8 @@
             "appResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').appRgName, '/providers/Microsoft.Web/sites/', variables('resourceNames').appName)]",
             "videoIndexerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.VideoIndexer/accounts/', variables('resourceNames').videoIndexerName)]",
             "ecommAcaAppContainerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/containerapps/', variables('resourceNames').apiAcaName)]",
-            "ecommAcaIndexerJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').indexerJobAcaName)]"
-
+            "ecommAcaIndexerJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').indexerJobAcaName)]",
+            "ecommAcaWebJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').statisWebAppJobName)]"
         },
         "apiVersions": {
             "dataFactory": "2018-06-01",
@@ -1980,6 +1997,35 @@
                 }
             }
         },
+
+        //ecomm: Retrieving objectId of the ACA Static WebApp Job System Identity
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgAzureAcaWebJobObjectIdDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommStaticWebAppJobDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgAzureObjectId]"
+                },
+                "parameters": {
+                    "resourceId": {
+                        "value": "[variables('resourceIds').ecommAcaIndexerJobResourceId]"
+                    },
+                    "apiVersion": {
+                        "value": "[variables('apiVersions').acaApps]"
+                    }
+                }
+            }
+        },
         // Consider to remove this deployment
         {
             "condition": "[equals(parameters('aiSystemIdentity'), 'Yes')]",
@@ -2550,6 +2596,37 @@
                     },
                     "principalId": {
                         "value": "[if(equals(parameters('aiRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+
+        //ecommRbac: Creating Role Assignment for Web Job aca on Azure Storage Data Contributor for 'ecomm' use case
+        {
+            "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').ecommWebJobRbacForStorageContributorDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(equals(parameters('aiRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaWebJobObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -3261,19 +3338,19 @@
                                 "value": "Consumption"
                             },
                             "apiImageName": {
-                                "value": "belstarr/ai-search-api:v0.0.19"
+                                "value": "[variables('ecommSampleVariables').apiContainerImageName]"
                             },
                             "aiSearchServiceName":{
                                 "value": "[variables('resourceNames').azureAiSearchName]"
                             },
                             "aiSearchIndexName":{
-                                "value": "contoso-product-index"
+                                "value": "[variables('ecommSampleVariables').ecommAISearchIndexName]"
                             },
                             "aiSearchSemanticConfigName":{
-                                "value": "product-semantic-config"
+                                "value": "[variables('ecommSampleVariables').ecommAISearchSemanticConfigName]"
                             },
                             "aiSearchKnearest":{
-                                "value": "3"
+                                "value": "[variables('ecommSampleVariables').ecommVectorSearchKNearest]"
                             },
                             "azureOpenAIName":{
                                 "value": "[variables('resourceNames').azureOpenAiName]"
@@ -3312,11 +3389,8 @@
                             "prefix": {
                                 "value": "[parameters('prefix')]"
                             },
-                            "acaworkloadprofile":{
-                                "value": "Consumption"
-                            },
                             "jobImageName": {
-                                "value": "belstarr/ai-search-python-job:v0.0.19"
+                                "value": "[variables('ecommSampleVariables').indexerJobContainerImageName]"
                             },
                             "aiSearchServiceName":{
                                 "value": "[variables('resourceNames').azureAiSearchName]"
@@ -3325,7 +3399,7 @@
                                 "value": "[variables('resourceNames').cosmosDbName]"
                             },
                             "cosmosDbDatabaseName":{
-                                "value": "catalogDb"
+                                "value": "[variables('ecommSampleVariables').ecommCosmosDatabaseName]"
                             },
                             "azureCosmosResourceID":{
                                 "value": "[variables('resourceIds').cosmosDbResourceId]"
@@ -3335,6 +3409,100 @@
                             },
                             "openAiEmbeddingDeploymentName":{
                                 "value": "[concat(parameters('ecommEmbeddingModelName'),'-text-embedding-ada-002')]"
+                            }
+                        }
+                    }
+                },
+
+        // ecommDeploy: Deploying a public blob storage account to host the sample Static Web App for ecomm use case 
+                {
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').ecommStaticWebAppStorageDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').ecommWebStorageTempalteUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "stMonCreation":{
+                                "value": "[parameters('stMonCreation')]"
+                            },
+                            "aiUseCaseSelection":{
+                                "value": "[parameters('aiUseCaseSelection')]"
+                            },
+                            "storageContainerName":{
+                                "value": "[variables('ecommSampleVariables').staticWebAppContainerName]"
+                            }
+                        }
+                    }
+                },
+
+
+        // ecommDeploy: Deploying Container Job to compile and copy React WebApp to Azure Blob Storage
+                {
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').ecommStaticWebAppJobDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommStaticWebAppStorageDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').ecommWebJobTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "jobImageName": {
+                                "value": "[variables('ecommSampleVariables').staticWebAppJobContainerImageName]"
+                            },
+                            "subscriptionId":{
+                                "value": ""
+                            },
+                            "azureClientId":{
+                                "value": ""
+                            },
+                            "storageAccountName":{
+                                "value": "[variables('resourceNames').statisWebAppStorageName]"
+                            },
+                            "apiFQDN":{
+                                "value": "[reference(variables('deploymentNames').containerAppDeploymentName).outputs.apiFQDN]"
+                            },
+                            "storageAccountURL":{
+                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.storageEndpoint.blob]"
+                            },
+                            "storageContainerName":{
+                                "value": "[variables('ecommSampleVariables').staticWebAppContainerName]"
                             }
                         }
                     }
