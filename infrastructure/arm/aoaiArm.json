@@ -3493,7 +3493,7 @@
                                 "value": ""
                             },
                             "storageAccountName":{
-                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.storageaccountName]"
+                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.ecommstorageaccountName]"
                             },
                             "apiFQDN":{
                                 "value": "[reference(variables('deploymentNames').containerAppDeploymentName).outputs.apiFQDN]"

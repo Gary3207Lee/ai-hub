@@ -172,7 +172,7 @@
             "type": "object",
             "value": "[reference(variables('name-compliant-storage')).primaryEndpoints]"
             },
-        "storageaccountName": {
+        "ecommstorageaccountName": {
             "type": "string",
             "value": "[variables('name-compliant-storage')]"
         }
