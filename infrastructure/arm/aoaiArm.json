@@ -861,7 +861,6 @@
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
             "apiAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
             "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-jobaca'))]",
-            "statisWebAppStorageName": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''),'webappst', parameters('location')), 23))]",
             "statisWebAppJobName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-webjobaca'))]"
         },
         "resourceIds": {
