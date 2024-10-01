@@ -195,7 +195,7 @@
 
         "apiFQDN": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.App/containerApps', variables('name-compliant-aca'))).properties.configuration.ingress.fqdn]"
+            "value": "[reference(resourceId('Microsoft.App/containerApps', variables('name-compliant-aca'))).configuration.ingress.fqdn]"
         }
 
     }
