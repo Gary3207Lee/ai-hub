@@ -186,18 +186,21 @@
                                 }
                             }
                         }
-                    ]
-                    
+                    ],
+                    "outputs": {
+
+                "apiFQDN": {
+            "type": "string",
+            "value": "[reference(concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/containerApps/', variables('name-compliant-aca')), '2024-03-01').configuration.ingress.fqdn]"
+                }
+
+        }
                 }
             }
         }
     ],
     "outputs": {
-
-                "apiFQDN": {
-            "type": "string",
-            "value": "[reference(concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/containerApps/', variables('name-compliant-aca')), '2024-03-01').configuration.ingress.fqdn]"
-        }
-
+        
     }
+    
 }
