@@ -3464,7 +3464,8 @@
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommStaticWebAppStorageDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommStaticWebAppStorageDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -3492,10 +3493,10 @@
                                 "value": ""
                             },
                             "storageAccountName":{
-                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.ecommstorageaccountName]"
+                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.ecommstorageaccountName.value]"
                             },
                             "apiFQDN":{
-                                "value": "[reference(variables('deploymentNames').containerAppDeploymentName).outputs.apiFQDN]"
+                                "value": "[reference(variables('deploymentNames').containerAppDeploymentName).outputs.apiFQDN.value]"
                             },
                             "storageAccountURL":{
                                 "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.storageEndpoint.blob]"
