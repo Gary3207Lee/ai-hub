@@ -186,22 +186,18 @@
                                 }
                             }
                         }
-                    ],
-                    "outputs": {
-
-                "apiFQDN": {
-                    "type": "string",
-                    "value": "[reference(variables('name-compliant-aca'), '2024-03-01').configuration.ingress.fqdn]"
-                }
-
-    }
+                    ]
+                    
                 }
             }
         }
     ],
     "outputs": {
 
-        
+                "apiFQDN": {
+                    "type": "string",
+                    "value": "[reference(variables('name-compliant-aca'), '2024-03-01').configuration.ingress.fqdn]"
+                }
 
     }
 }
