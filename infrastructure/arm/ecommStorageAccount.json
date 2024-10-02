@@ -170,7 +170,7 @@
     "outputs": {
         "storageEndpoint": {
             "type": "object",
-            "value": "[reference(variables('name-compliant-storage')).primaryEndpoints]"
+            "value": "[reference(concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Storage/storageAccounts/', variables('name-compliant-storage')), '2023-05-01').primaryEndpoints]"
             },
         "ecommstorageaccountName": {
             "type": "string",
