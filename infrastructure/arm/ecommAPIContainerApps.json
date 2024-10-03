@@ -32,28 +32,28 @@
             "type": "string",
             "defaultValue": ""
         },
-        "aiSearchServiceName":{
+        "aiSearchServiceName": {
             "type": "string",
             "defaultValue": ""
         },
-        "aiSearchIndexName":{
-               "type": "string",
+        "aiSearchIndexName": {
+            "type": "string",
             "defaultValue": ""
         },
-        "aiSearchSemanticConfigName":{
-               "type": "string",
+        "aiSearchSemanticConfigName": {
+            "type": "string",
             "defaultValue": ""
         },
-        "aiSearchKnearest":{
-               "type": "string",
+        "aiSearchKnearest": {
+            "type": "string",
             "defaultValue": ""
         },
-        "azureOpenAIName":{
-               "type": "string",
+        "azureOpenAIName": {
+            "type": "string",
             "defaultValue": ""
         },
-        "openAiGPTDeploymentName":{
-               "type": "string",
+        "openAiGPTDeploymentName": {
+            "type": "string",
             "defaultValue": ""
         }
 
@@ -99,7 +99,7 @@
                             "properties": {
                                 "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
                                 "configuration": {
-                                    "secrets": [ ],
+                                    "secrets": [],
                                     "activeRevisionsMode": "Single",
                                     "ingress": {
                                         "external": true,
@@ -112,20 +112,20 @@
                                             }
                                         ],
                                         "corsPolicy": {
-                                        "allowedOrigins": [
-                                            "*"
-                                        ],
-                                        "allowCredentials": false,
-                                        "allowedHeaders": [
-                                            "*"
-                                        ],
-                                        "allowedMethods": [
-                                            "GET",
-                                            "POST",
-                                            "PUT",
-                                            "DELETE",
-                                            "OPTIONS"
-                                        ]
+                                            "allowedOrigins": [
+                                                "*"
+                                            ],
+                                            "allowCredentials": false,
+                                            "allowedHeaders": [
+                                                "*"
+                                            ],
+                                            "allowedMethods": [
+                                                "GET",
+                                                "POST",
+                                                "PUT",
+                                                "DELETE",
+                                                "OPTIONS"
+                                            ]
                                         }
                                     }
                                 },
@@ -141,42 +141,42 @@
                                             },
                                             "env": [
                                                 {
-                                                "name": "AppConfiguration__AISearchClient__endpoint",
-                                                "value": "[format('https://{0}.search.windows.net', parameters('aiSearchServiceName'))]"
+                                                    "name": "AppConfiguration__AISearchClient__endpoint",
+                                                    "value": "[format('https://{0}.search.windows.net', parameters('aiSearchServiceName'))]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__AISearchClient__indexName",
-                                                "value": "[parameters('aiSearchIndexName')]"
+                                                    "name": "AppConfiguration__AISearchClient__indexName",
+                                                    "value": "[parameters('aiSearchIndexName')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__AISearchClient__fields",
-                                                "value": "description"
+                                                    "name": "AppConfiguration__AISearchClient__fields",
+                                                    "value": "description"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__endpoint",
-                                                "value": "[format('https://{0}.openai.azure.com', parameters('azureOpenAIName'))]"
+                                                    "name": "AppConfiguration__OpenAIClient__endpoint",
+                                                    "value": "[format('https://{0}.openai.azure.com', parameters('azureOpenAIName'))]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__AISearchClient__semanticConfigName",
-                                                "value": "[parameters('aiSearchSemanticConfigName')]"
+                                                    "name": "AppConfiguration__AISearchClient__semanticConfigName",
+                                                    "value": "[parameters('aiSearchSemanticConfigName')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__AISearchClient__vectorFieldNames",
-                                                "value": "description_vectorized"
+                                                    "name": "AppConfiguration__AISearchClient__vectorFieldNames",
+                                                    "value": "description_vectorized"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__AISearchClient__nearestNeighbours",
-                                                "value": "[parameters('aiSearchKnearest')]"
+                                                    "name": "AppConfiguration__AISearchClient__nearestNeighbours",
+                                                    "value": "[parameters('aiSearchKnearest')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__Deployment",
-                                                "value": "[parameters('openAiGPTDeploymentName')]"
+                                                    "name": "AppConfiguration__OpenAIClient__Deployment",
+                                                    "value": "[parameters('openAiGPTDeploymentName')]"
                                                 },
                                                 {
-                                                "name": "AppConfiguration__OpenAIClient__SystemPromptFile",
-                                                "value": "system_prompt.txt"
+                                                    "name": "AppConfiguration__OpenAIClient__SystemPromptFile",
+                                                    "value": "system_prompt.txt"
                                                 }
-                                            ]    
+                                            ]
                                         }
                                     ],
                                     "scale": {
@@ -189,18 +189,16 @@
                     ],
                     "outputs": {
 
-                "apiFQDN": {
-            "type": "string",
-            "value": "[reference(concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/containerApps/', variables('name-compliant-aca')), '2024-03-01').configuration.ingress.fqdn]"
-                }
-
-        }
+                    }
                 }
             }
         }
     ],
     "outputs": {
-        
+        "apiFQDN": {
+            "type": "string",
+            "value": "[reference(concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/containerApps/', variables('name-compliant-aca')), '2024-03-01').configuration.ingress.fqdn]"
+        }
     }
-    
+
 }
