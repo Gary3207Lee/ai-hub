@@ -702,13 +702,10 @@
 
     },
     "variables": {
-        "subscriptionId": "[subscription().subscriptionId]",
         "cosmosVnet": "[concat(split(parameters('cosmosDbSubnetId'), '/subnets/')[0])]",
-        "cosmosVnetRg": "[concat(split(parameters('cosmosDbSubnetId'), '/')[4])]",
         "aisearchVnet": "[concat(split(parameters('aiSearchSubnetId'), '/subnets/')[0])]",
-        "aisearchVnetRg": "[concat(split(parameters('aiSearchSubnetId'), '/')[4])]",
         "openaiVnet": "[concat(split(parameters('aiSubnetId'), '/subnets/')[0])]",
-        "openaiVnetRg": "[concat(split(parameters('aiSubnetId'), '/')[4])]",
+        
         "templateUris": {
             "baseUri": "[uri(deployment().properties.templateLink.uri, 'aoaiArm.json')]",
             "managedIdentityUri": "[uri(deployment().properties.templateLink.uri, 'managedIdentity.json')]",
