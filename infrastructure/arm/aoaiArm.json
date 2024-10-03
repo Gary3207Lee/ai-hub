@@ -3495,6 +3495,9 @@
                             "azureClientId":{
                                 "value": ""
                             },
+                            "storageAccountName":{
+                                "value": "[variables('resourceNames').ecommstorageaccountName]"
+                            },
                             "storageContainerName":{
                                 "value": "[variables('ecommSampleVariables').staticWebAppContainerName]"
                             },
