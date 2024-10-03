@@ -861,7 +861,8 @@
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
             "apiAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-apiaca'))]",
             "indexerJobAcaName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-jobaca'))]",
-            "statisWebAppJobName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-webjobaca'))]"
+            "statisWebAppJobName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-webjobaca'))]",
+            "ecommstorageaccountName": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''),'webappst', parameters('location')), 23))]"
         },
         "resourceIds": {
             "storageAccountResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName)]",
@@ -876,7 +877,8 @@
             "videoIndexerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.VideoIndexer/accounts/', variables('resourceNames').videoIndexerName)]",
             "ecommAcaAppContainerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/containerapps/', variables('resourceNames').apiAcaName)]",
             "ecommAcaIndexerJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').indexerJobAcaName)]",
-            "ecommAcaWebJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').statisWebAppJobName)]"
+            "ecommAcaWebJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/jobs/', variables('resourceNames').statisWebAppJobName)]",
+            "ecommstorageAccountURI":"[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').ecommstorageaccountName)]"
         },
         "apiVersions": {
             "dataFactory": "2018-06-01",
@@ -894,6 +896,7 @@
         "aoaiEndpoint1": "[toLower(concat('https://', parameters('prefix'), '-', parameters('location'), '-azopenai', '.openai.azure.com/'))]",
         "aoaiEndpoint2": "[toLower(concat('https://', parameters('prefix'), '-', parameters('aiMultiLocation'), '-azopenai', '.openai.azure.com/'))]",
         "blobStorageEndpoint": "[concat('https://', variables('resourceNames').storageAccountName, '.blob.core.windows.net/')]",
+        "ecommStorageEndpoint": "[concat('https://', variables('resourceNames').ecommstorageaccountName, '.blob.core.windows.net/')]",
         "keyVaultEndpoint": "[concat('https://', parameters('prefix'), '-', parameters('location'), '-kv', '.vault.azure.net/')]",
         "cosmosDbEndpoint": "[concat('https://', variables('resourceNames').cosmosDbName, '.documents.azure.com:443/')]",
         "azAiDocumentIntelligenceEndpoint": "[concat('https://', variables('resourceNames').azAiDocumentIntelligenceName, '.cognitiveservices.azure.com/')]",
@@ -3492,17 +3495,11 @@
                             "azureClientId":{
                                 "value": ""
                             },
-                            "storageAccountName":{
-                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.ecommstorageaccountName.value]"
-                            },
-                            "apiFQDN":{
-                                "value": "[reference(variables('deploymentNames').containerAppDeploymentName).outputs.apiFQDN.value]"
-                            },
-                            "storageAccountURL":{
-                                "value": "[reference(variables('deploymentNames').ecommStaticWebAppStorageDeploymentName).outputs.storageEndpoint.blob]"
-                            },
                             "storageContainerName":{
                                 "value": "[variables('ecommSampleVariables').staticWebAppContainerName]"
+                            },
+                            "storageAccountURI": {
+                                "value": "[variables('ecommStorageEndpoint')]"
                             }
                         }
                     }
