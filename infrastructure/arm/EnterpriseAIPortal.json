@@ -94,7 +94,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('basics').aiIntention, 'Multiple')]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "For Enterprise Azure OpenAI Hub in a multi-region setup, all Azure services will be configured using Public Endpoints. Private Endpoint support for both PoC and Production deployment will be enabled soon."
                             }
                         },
@@ -103,7 +103,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('basics').aiIntention, 'Multiple')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/EAOAIHubMulti.svg'>"
                             }
                         },
@@ -112,7 +112,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('basics').aiIntention, 'Single')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/EAOAIHubSingle.svg'>"
                             }
                         },
@@ -121,7 +121,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('basics').aiDeployOption, 'Production')]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Currently Enterprise Azure OpenAI Hub can only be deployed to a single Azure region supporting Private Endpoints. Support for multi-region setup with Private Endpoints will be enabled soon. To deploy to multiple Azure regions using Public Endpoints, select 'Proof of Concept' option in the drop down."
                             }
                         },
@@ -130,7 +130,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('basics').aiDeployOption, 'Production')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/EAOAIHubSingle.svg'>"
                             }
                         },
@@ -249,7 +249,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Centralizing storage of application secrets in Azure Key Vault allows you to control their distribution. Key Vault greatly reduces the chances that secrets may be accidentally leaked. When application developers use Key Vault, they no longer need to store security information in their application. Use Azure Key Vault to enable Customer-Managed keys scenarios for Azure OpenAI workload compositions",
                                 "link": {
                                     "label": "Learn more",
@@ -410,7 +410,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('kvSettings').kvDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Key Vault. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -459,7 +459,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('kvSettings').kvDisableNetworkAccess, 'Yes'), not(equals(steps('kvSettings').selectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then the Key Vault. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -507,7 +507,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Bring your own storage that you can use to train Azure OpenAI on internal, highly confidential data fully encrypted by Customer-Managed Keys.",
                                 "uri": "https://www.microsoft.com"
                             }
@@ -587,7 +587,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('stSettings').stDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Storage Account. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -636,7 +636,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('stSettings').stDisableNetworkAccess, 'Yes'), not(equals(steps('stSettings').selectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then the Storage Account. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -712,7 +712,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Azure OpenAI Service provides REST API access to OpenAI's powerful language models including the GPT-4, GPT-35-Turbo, and Embeddings model series. In addition, the new GPT-4 and gpt-35-turbo model series have now reached general availability. These models can be easily adapted to your specific task including but not limited to content generation, summarization, semantic search, and natural language to code translation. Users can access the service through REST APIs, Python SDK, or our web-based interface in the Azure OpenAI Studio.",
                                 "uri": "https://www.microsoft.com"
                             }
@@ -792,7 +792,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiSettings').aiDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Azure OpenAI service. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -841,7 +841,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiSettings').aiDisableNetworkAccess, 'Yes'), not(equals(steps('aiSettings').selectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then the Azure OpenAI service. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -938,7 +938,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Deployments provide endpoints to the Azure OpenAI base models, or your fine-tuned models, configured with settings to meet your needs, including the content moderation model, version handling, and deployment size. From this page, you can create new deployments.",
                                 "uri": "https://www.microsoft.com"
                             }
@@ -1066,7 +1066,7 @@
                                 "text": "The default content filtering configuration is set to filter at the medium severity threshold for all four content harms categories for both, prompts and completions. This means that content that is detected at severity level medium or high is filtered, while content detected at severity level low is not filtered by the content filters. Customers are responsible for ensuring that applications integrating Azure OpenAI comply with the Code of Conduct.",
                                 "link": {
                                     "label": "Learn more",
-                                    "uri": "https://learn.microsoft.com/azure/ai-services/openai/concepts/content-filter?tabs=warning%2Cpython"
+                                    "uri": "https://learn.microsoft.com/azure/ai-services/openai/concepts/content-filter?tabs=Warning%2Cpython"
                                 }
                             }
                         },
@@ -1406,7 +1406,7 @@
                                 "text": "Enable additional content safety models that can be run on top of the main content filters. These models are optional.",
                                 "link": {
                                     "label": "Learn more",
-                                    "uri": "https://learn.microsoft.com/azure/ai-services/openai/concepts/content-filter?tabs=warning%2Cpython"
+                                    "uri": "https://learn.microsoft.com/azure/ai-services/openai/concepts/content-filter?tabs=Warning%2Cpython"
                                 }
                             }
                         },
@@ -1534,7 +1534,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Subject to your initial use cases, you can enable additional Azure services for the complete Enterprise Azure OpenAI Hub architecture on Azure.",
                                 "uri": "https://www.microsoft.com"
                             }
@@ -1610,7 +1610,7 @@
                                     },
                                     {
                                         "label": "Retail AI enhanced search",
-                                        "description": "Retail AI enhanced search",
+                                        "description": "Enables natural language search functionality in Retail applications. Leverages the capabilities of Azure OpenAI and Azure AI Search capabilities to provide a seamless search experience with filtering capabilities.",
                                         "value": "ecomm"
                                     }
                                 ],
@@ -1623,7 +1623,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'vision')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/azure-video-architecture.svg'>"
                             }
                         },
@@ -1632,7 +1632,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/azure-rag-architecture.svg'>"
                             }
                         },
@@ -1641,7 +1641,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'video')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/Azure/ai-hub/main/docs/azure-assistant-architecture.svg'>"
                             }
                         },
@@ -1650,7 +1650,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "<b> </b><img src='https://raw.githubusercontent.com/IamVarma/ai-hub/main/docs/azure-eRetail-architecture.png'>"
                             }
                         },
@@ -1660,7 +1660,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "To support the initial use case, additional Azure OpenAI model deployments will be created."
                             }
                         },
@@ -1676,7 +1676,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[and(equals(steps('basics').aiIntention, 'Single'),equals(steps('basics').aiDeployOption, 'PoC') ,equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'))]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "The sample Web App enables your organization to quickly validate and explore ChatGPT on your own business data. To integrated with Entra ID for authentication, you can create a new Application Registration now with a client secret, or do it post deployment by following the documentation.",
                                 "link": {
                                     "label": "Learn more",
@@ -1768,7 +1768,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "For using Azure OpenAI in the same Azure region while getting additional quota and capacity, it is recommended to deploy into separate Azure subscriptions to avoid the capacity is shared.",
                                 "link": {
                                     "label": "Learn more",
@@ -1860,7 +1860,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Azure AI Search, an AI-powered information retrieval platform, helps developers build rich search experiences and generative AI apps that combine large language models with enterprise data. Implement search functionality for any mobile or search application within your organization or as part of software as a service (SaaS) apps.",
                                 "link": {
                                     "label": "Learn more",
@@ -1906,17 +1906,28 @@
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]"
                         },
                         {
+                            "name": "aiSearchEcommPoCInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))]",
+                            "options": {
+                                "style": "Info",
+                                "text": "Following security recommendations, for the selected use case, AI Search will be deployed with public network access and local authentication disabled, System-assigned managed identity and monitoring enabled by default."
+                            }
+                        },
+                        {
                             "name": "aiSearchNetworkSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Network Settings",
                             "elements": [],
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
+                        
                         {
                             "name": "aiSearchDisableNetworkAccess",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Disable Public Network Access",
                             "defaultValue": "Yes (recommended)",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]",
                             "toolTip": "",
                             "constraints": {
                                 "allowedValues": [
@@ -1930,15 +1941,15 @@
                                     }
                                 ],
                                 "required": true
-                            },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            }
+                            
                         },
                         {
                             "name": "aiSearchNetworkingInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Azure AI search. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -1953,7 +1964,7 @@
 									"location": "all"
 								}
 							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
 						},
 						{
 							"name": "aiSearchSubnets",
@@ -1972,7 +1983,7 @@
 								"allowedValues": "[map(steps('aiAuxiliarySettings').aiSearchSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
 								"required": true
 							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
 						},
                         {  
                             "name": "aiSearchSelectedVnetDetails",  
@@ -1985,20 +1996,10 @@
                         {
                             "name": "aiSearchNetworkingRegionOutputInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('aiAuxiliarySettings').aiSearchSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(equals(steps('aiAuxiliarySettings').aiSearchSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then Azure AI Search. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
-                            }
-                        },
-                        {
-                            "name": "aiSearchPrivateEndpointInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), equals(steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess, 'Yes'))]",
-                            "options": {
-                                "icon": "warning",
-                                "text": "To allow access to your Azure AI Search resource from Azure OpenAI resource, you need to submit an application form. The application will be reviewed in 10 business days and you will be contacted via email about the results. If you are eligible, we will provision the private endpoint in Microsoft managed virtual network, and send a private endpoint connection request to your search service, and you will need to approve the request.",
-                                "uri": "https://forms.office.com/pages/responsepage.aspx?id=v4j5cvGGr0GRqy180BHbRw_T3EIZ1KNCuv_1duLJBgpUMUcwV1Y5QjI3UTVTMkhSVUo3R09NNVQxSyQlQCN0PWcu"
                             }
                         },
                         {
@@ -2006,7 +2007,7 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Authorization Settings",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "aiSearchRbacAuthz",
@@ -2027,7 +2028,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "aiSearchSystemIdentity",
@@ -2048,14 +2049,14 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "aiSearchMonSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Monitor Settings",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "aiSearchMonCreation",
@@ -2076,7 +2077,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes')]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseDeployment, 'Yes'), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "aiAddServicesSectionVision",
@@ -2097,7 +2098,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'vision')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Azure AI Vision is a unified service that offers innovative computer vision capabilities. Give your apps the ability to analyze images, read text, and detect faces with prebuilt image tagging, text extraction with optical character recognition (OCR), and responsible facial recognition. Incorporate vision features into your projects with no machine learning experience required.",
                                 "link": {
                                     "label": "Learn more",
@@ -2159,7 +2160,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiVisionDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'vision'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for AI Vision. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -2208,7 +2209,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiVisionDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'vision'), not(equals(steps('aiAuxiliarySettings').aiVisionSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then AI Vision. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -2308,7 +2309,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'video')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Azure AI Video Indexer is a cloud application, part of Azure AI services, built on Azure AI services (such as the Face, Translator, Azure AI Vision, and Speech). It enables you to extract the insights from your videos using Azure AI Video Indexer video and audio models.",
                                 "link": {
                                     "label": "Learn more",
@@ -2392,7 +2393,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Azure AI Document Intelligence enables you to effectively manage the velocity at which data is collected and processed and is key to improved operations, informed data-driven decisions, and enlightened innovation.",
                                 "link": {
                                     "label": "Learn more",
@@ -2484,7 +2485,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiDocDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Document Intelligence. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -2533,7 +2534,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiDocDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('aiAuxiliarySettings').aiDocSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then Document Intelligence. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -2633,12 +2634,21 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]",
                             "options": {
-                                "icon": "None",
+                                "style": "Warning",
                                 "text": "Azure Cosmos DB is a globally distributed, multi-model database service and offered by Microsoft. It is designed to provide high availability, scalability, and low-latency access to data for modern applications. Cosmos DB is used to persist prompt results as part of the index pipelines provided by Azure Data Factory.",
                                 "link": {
                                     "label": "Learn more",
                                     "uri": "https://learn.microsoft.com/azure/cosmos-db/introduction"
                                 }
+                            }
+                        },
+                        {
+                            "name": "cosmosDbEcommPoCInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))]",
+                            "options": {
+                                "style": "Info",
+                                "text": "Following security recommendations, for the selected use case, CosmosDB will be deployed with public network access and local authentication disabled, System-assigned managed identity and monitoring enabled by default."
                             }
                         },
                         {
@@ -2667,14 +2677,15 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))) )]"
+                            
                         },
                         {
                             "name": "cosmosNetworkingInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Cosmos DB. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -2689,7 +2700,7 @@
 									"location": "all"
 								}
 							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
 						},
 						{
 							"name": "cosmosSubnets",
@@ -2708,7 +2719,7 @@
 								"allowedValues": "[map(steps('aiAuxiliarySettings').cosmosSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
 								"required": true
 							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
 						},
                         {  
                             "name": "cosmosSelectedVnetDetails",  
@@ -2721,9 +2732,9 @@
                         {
                             "name": "cosmosNetworkingRegionOutputInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('aiAuxiliarySettings').cosmosSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').cosmosDisableNetworkAccess, 'Yes'),and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))), or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(equals(steps('aiAuxiliarySettings').cosmosSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then Cosmos DB. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -2732,7 +2743,8 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Authorization Settings",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
+                        
                         },
                         {
                             "name": "cosmosRbacAuthz",
@@ -2753,7 +2765,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "cosmosSystemIdentity",
@@ -2774,14 +2786,14 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "cosmosMonSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Monitor Settings",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "cosmosMonCreation",
@@ -2802,14 +2814,14 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[and(or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm')), not(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))))]"
                         },
                         {
                             "name": "aiAddServicesSectionOnYourData",
                             "type": "Microsoft.Common.Section",
                             "label": "Required services for the selected use case",
                             "elements": [],
-                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'))]"
+                            "visible": "[or(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'))]"
                         },
                         {
                             "name": "dfSection",
@@ -2823,7 +2835,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
                             "options": {
-                                "icon": "None",
+                                "style": "None",
                                 "text": "Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and orchestrate data pipelines for moving and transforming data between different data stores. In this setup Data Factory will provide pipelines for index creation in Azure AI Search for RAG based use cases.",
                                 "link": {
                                     "label": "Learn more",
@@ -2864,7 +2876,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiAuxiliarySettings').dfDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
                             }
                         },
@@ -2913,7 +2925,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[and(equals(steps('aiAuxiliarySettings').dfDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'), not(equals(steps('aiAuxiliarySettings').dfSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
-                                "icon": "warning",
+                                "style": "Warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
                             }
                         },
@@ -2973,157 +2985,169 @@
                             },
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         },
-
+                        
                         {
                             "name": "acaSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Azure Container Apps",
-                            "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
-                        {
-                            "name": "acaNetworkSection",
-                            "type": "Microsoft.Common.Section",
-                            "label": "Network Settings",
-                            "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
-                        {
-                            "name": "acaDisableNetworkAccess",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Disable Public Network Access",
-                            "defaultValue": "Yes (recommended)",
-                            "toolTip": "",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes (recommended)",
-                                        "value": "Yes"
-                                    },
-                                    {
-                                        "label": "No",
-                                        "value": "No"
+                            "elements": [
+                                {
+                                    "name": "acaEcommPoCInfo",
+                                    "type": "Microsoft.Common.InfoBox",
+                                    "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'))]",
+                                    "options": {
+                                        "style": "Info",
+                                        "text": "Following security recommendations, for the selected use case, Azure Container Apps and Jobs will be deployed with public network access and local authentication disabled, System-assigned managed identity and monitoring enabled by default."
                                     }
-                                ],
-                                "required": true
+                                },
+                                {
+                                "name": "acaNetworkSection",
+                                "type": "Microsoft.Common.Section",
+                                "label": "Network Settings",
+                                "elements": [],
+                                "visible": true
                             },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
-                        {
-                            "name": "acaNetworkingInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]",
-                            "options": {
-                                "icon": "warning",
-                                "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
+                            {
+                                "name": "acaDisableNetworkAccess",
+                                "type": "Microsoft.Common.OptionsGroup",
+                                "label": "Disable Public Network Access",
+                                "defaultValue": "Yes (recommended)",
+                                "toolTip": "",
+                                "constraints": {
+                                    "allowedValues": [
+                                        {
+                                            "label": "Yes (recommended)",
+                                            "value": "Yes"
+                                        },
+                                        {
+                                            "label": "No",
+                                            "value": "No"
+                                        }
+                                    ],
+                                    "required": true
+                                },
+                                "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'PoC')))]"
+                            },
+                            {
+                                "name": "acaNetworkingInfo",
+                                "type": "Microsoft.Common.InfoBox",
+                                "visible": true,
+                                "options": {
+                                    "style": "Warning",
+                                    "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
+                                }
+                            },
+                            {
+                                "name": "acaVnetSelector",
+                                "type": "Microsoft.Solutions.ResourceSelector",
+                                "label": "Select an existing Virtual Network",
+                                "resourceType": "Microsoft.Network/virtualNetworks",
+                                "options": {
+                                    "filter": {
+                                        "subscription": "onBasics",
+                                        "location": "all"
+                                    }
+                                },
+                                "visible": true
+                            },
+                            {
+                                "name": "acaSubnets",
+                                "type": "Microsoft.Solutions.ArmApiControl",
+                                "request": {
+                                    "method": "GET",
+                                    "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaSection.acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaSection.acaVnetSelector.name,'/subnets?api-version=2022-01-01')]"
+                                }
+                            },
+                            {
+                                "name": "acaSubnetList",
+                                "type": "Microsoft.Common.DropDown",
+                                "label": "Select an existing Subnet",
+                                "filter": true,
+                                "constraints": {
+                                    "allowedValues": "[map(steps('aiAuxiliarySettings').acaSection.acaSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                                    "required": true
+                                },
+                                "visible": true
+                            },
+                            {  
+                                "name": "acaSelectedVnetDetails",  
+                                "type": "Microsoft.Solutions.ArmApiControl",  
+                                "request": {  
+                                    "method": "GET",  
+                                    "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaSection.acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaSection.acaVnetSelector.name, '?api-version=2022-01-01')]"  
+                                }  
+                            },
+                            {
+                                "name": "acaNetworkingRegionOutputInfo",
+                                "type": "Microsoft.Common.InfoBox",
+                                "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').acaSection.acaSelectedVnetDetails.location, steps('basics').resourceScope.location.name)),not(equals(steps('basics').aiDeployOption, 'Production')) ,not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                                "options": {
+                                    "style": "Warning",
+                                    "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
+                                }
+                            },
+                            {
+                                "name": "acaAuthzSection",
+                                "type": "Microsoft.Common.Section",
+                                "label": "Authorization Settings:",
+                                "elements": [],
+                                "visible": false
+                            },
+                            {
+                                "name": "acaSystemIdentity",
+                                "type": "Microsoft.Common.OptionsGroup",
+                                "label": "Enable Managed Identity (System-assigned) for Container Apps",
+                                "defaultValue": "Yes (recommended)",
+                                "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
+                                "constraints": {
+                                    "allowedValues": [
+                                        {
+                                            "label": "Yes (recommended)",
+                                            "value": "Yes"
+                                        },
+                                        {
+                                            "label": "No",
+                                            "value": "No"
+                                        }
+                                    ],
+                                    "required": true
+                                },
+                                "visible": false
+                            },
+                            {
+                                "name": "acaMonSection",
+                                "type": "Microsoft.Common.Section",
+                                "label": "Azure Monitor Settings",
+                                "elements": [],                                    
+                                "visible": false
+                            },
+                            {
+                                "name": "acaMonCreation",
+                                "type": "Microsoft.Common.OptionsGroup",
+                                "label": "Enable Diagnostic Settings for logging and threat detection",
+                                "defaultValue": "Yes (recommended)",
+                                "toolTip": "",
+                                "constraints": {
+                                    "allowedValues": [
+                                        {
+                                            "label": "Yes (recommended)",
+                                            "value": "Yes"
+                                        },
+                                        {
+                                            "label": "No",
+                                            "value": "No"
+                                        }
+                                    ],
+                                    "required": true
+                                },
+                                "visible": false
+                                
                             }
-                        },
-                        {
-							"name": "acaVnetSelector",
-							"type": "Microsoft.Solutions.ResourceSelector",
-							"label": "Select an existing Virtual Network",
-							"resourceType": "Microsoft.Network/virtualNetworks",
-							"options": {
-								"filter": {
-									"subscription": "onBasics",
-									"location": "all"
-								}
-							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-						},
-						{
-							"name": "acaSubnets",
-							"type": "Microsoft.Solutions.ArmApiControl",
-							"request": {
-								"method": "GET",
-								"path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaVnetSelector.name,'/subnets?api-version=2022-01-01')]"
-							}
-						},
-						{
-							"name": "acaSubnetList",
-							"type": "Microsoft.Common.DropDown",
-							"label": "Select an existing Subnet",
-							"filter": true,
-							"constraints": {
-								"allowedValues": "[map(steps('aiAuxiliarySettings').acaSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
-								"required": true
-							},
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-						},
-                        {  
-                            "name": "acaSelectedVnetDetails",  
-                            "type": "Microsoft.Solutions.ArmApiControl",  
-                            "request": {  
-                                "method": "GET",  
-                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaVnetSelector.name, '?api-version=2022-01-01')]"  
-                            }  
-                        },
-                        {
-                            "name": "acaNetworkingRegionOutputInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').acaSelectedVnetDetails.location, steps('basics').resourceScope.location.name)),not(equals(steps('basics').aiDeployOption, 'Production')) ,not(equals(steps('basics').aiIntention, 'Multiple')))]",
-                            "options": {
-                                "icon": "warning",
-                                "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
-                            }
-                        },
-                        {
-                            "name": "acaAuthzSection",
-                            "type": "Microsoft.Common.Section",
-                            "label": "Authorization Settings",
-                            "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
-                        {
-                            "name": "acaSystemIdentity",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Enable Managed Identity (System-assigned) for Container Apps",
-                            "defaultValue": "Yes (recommended)",
-                            "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes (recommended)",
-                                        "value": "Yes"
-                                    },
-                                    {
-                                        "label": "No",
-                                        "value": "No"
-                                    }
-                                ],
-                                "required": true
-                            },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')),not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
-                        {
-                            "name": "acaMonSection",
-                            "type": "Microsoft.Common.Section",
-                            "label": "Azure Monitor Settings",
-                            "elements": [],
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
-                        },
-                        {
-                            "name": "acaMonCreation",
-                            "type": "Microsoft.Common.OptionsGroup",
-                            "label": "Enable Diagnostic Settings for logging and threat detection",
-                            "defaultValue": "Yes (recommended)",
-                            "toolTip": "",
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Yes (recommended)",
-                                        "value": "Yes"
-                                    },
-                                    {
-                                        "label": "No",
-                                        "value": "No"
-                                    }
-                                ],
-                                "required": true
-                            },
-                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                             
+                        ],
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         }
+                        
 
 
                     ]
@@ -3171,18 +3195,18 @@
                 "aiContentHateFilterCompletion": "[steps('aiModelSettings').aiContentHateFilterCompletion]",
                 "aiContentSexualFilterCompletion": "[steps('aiModelSettings').aiContentSexualFilterCompletion]",
                 "aiContentViolenceFilterCompletion": "[steps('aiModelSettings').aiContentViolenceFilterCompletion]",
-                "aiSearchDisableNetworkAccess": "[steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess]",
+                "aiSearchDisableNetworkAccess": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').aiSearchDisableNetworkAccess)]",
                 "aiSearchNwLocation": "[steps('aiAuxiliarySettings').aiSearchSelectedVnetDetails.location]",
-                "aiSearchRbacAuthz": "[steps('aiAuxiliarySettings').aiSearchRbacAuthz]",
+                "aiSearchRbacAuthz": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').aiSearchRbacAuthz)]",
                 "aiSearchSubnetId": "[steps('aiAuxiliarySettings').aiSearchSubnetList]",
-                "aiSearchSystemIdentity": "[steps('aiAuxiliarySettings').aiSearchSystemIdentity]",
+                "aiSearchSystemIdentity": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').aiSearchSystemIdentity)]",
                 "aiSearchReplicas": "[string(steps('aiAuxiliarySettings').aiSearchReplicas)]",
                 "aiSearchPartitions": "[string(steps('aiAuxiliarySettings').aiSearchPartitions)]",
                 "aiUseCaseDeployment": "[steps('aiAuxiliarySettings').aiUseCaseDeployment]",
                 "kvMonCreation": "[steps('kvSettings').kvMonCreation]",
                 "stMonCreation": "[steps('stSettings').stMonCreation]",
                 "aiMonCreation": "[steps('aiSettings').aiMonCreation]",
-                "aiSearchMonCreation": "[steps('aiAuxiliarySettings').aiSearchMonCreation]",
+                "aiSearchMonCreation": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').aiSearchMonCreation)]",
                 "visionDisableNetworkAccess": "[steps('aiAuxiliarySettings').aiVisionDisableNetworkAccess]",
                 "visionRbacAuthz": "[steps('aiAuxiliarySettings').aiVisionRbacAuthz]",
                 "visionNwLocation": "[steps('aiAuxiliarySettings').aiVisionSelectedVnetDetails.location]",
@@ -3207,12 +3231,12 @@
                 "aiDedicatedSubnetId": "[steps('aiAuxiliarySettings').aiDedicatedSubnetId]",
                 "aiDedicatedSubscriptionId": "[steps('aiAuxiliarySettings').aiDedicatedSection.aiDedicatedSubscriptionId]",
                 "apimLocation": "[steps('basics').apimLocation]",
-                "cosmosDbDisableNetworkAccess": "[steps('aiAuxiliarySettings').cosmosDisableNetworkAccess]",
-                "cosmosDbRbacAuthz": "[steps('aiAuxiliarySettings').cosmosRbacAuthz]",
+                "cosmosDbDisableNetworkAccess": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').cosmosDisableNetworkAccess)]",
+                "cosmosDbRbacAuthz": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').cosmosRbacAuthz)]",
                 "cosmosDbNwLocation": "[steps('aiAuxiliarySettings').cosmosSelectedVnetDetails.location]",
                 "cosmosDbSubnetId": "[steps('aiAuxiliarySettings').cosmosSubnetList]",
-                "cosmosDbSystemIdentity": "[steps('aiAuxiliarySettings').cosmosSystemIdentity]",
-                "cosmosDbMonCreation": "[steps('aiAuxiliarySettings').cosmosMonCreation]",
+                "cosmosDbSystemIdentity": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').cosmosSystemIdentity)]",
+                "cosmosDbMonCreation": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').cosmosMonCreation)]",
                 "dfDisableNetworkAccess": "[steps('aiAuxiliarySettings').dfDisableNetworkAccess]",
                 "dfNwLocation": "[steps('aiAuxiliarySettings').dfSelectedVnetDetails.location]",
                 "dfSubnetId": "[steps('aiAuxiliarySettings').dfSubnetList]",
@@ -3220,11 +3244,11 @@
                 "dfMonCreation": "[steps('aiAuxiliarySettings').dfMonCreation]",
                 "videoSystemIdentity": "[steps('aiAuxiliarySettings').aiVideoIndexerSystemIdentity]",
                 "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]",
-                "acaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaDisableNetworkAccess]",
-                "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
-                "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
-                "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
-                "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]",
+                "acaDisableNetworkAccess": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').acaSection.acaDisableNetworkAccess)]",
+                "acaNwLocation": "[steps('aiAuxiliarySettings').acaSection.acaSelectedVnetDetails.location]",
+                "acaSubnetId": "[steps('aiAuxiliarySettings').acaSection.acaSubnetList]",
+                "acaSystemIdentity": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').acaSection.acaSystemIdentity)]",
+                "acaMonCreation": "[if(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), equals(steps('basics').aiDeployOption, 'PoC')),'Yes',steps('aiAuxiliarySettings').acaSection.acaMonCreation)]",
                 "ecommEmbeddingModelName": "[steps('aiAuxiliarySettings').ecommEmbeddingModelDeploymentName]"
             },
             "kind": "Subscription",

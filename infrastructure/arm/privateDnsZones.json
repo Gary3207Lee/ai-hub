@@ -13,20 +13,21 @@
         "VnetResourceId": {
             "type": "string"
         },
-        "vnetrgName":{
-            "type": "string",
-            "defaultValue": ""
-        },
         "NetworkInterfaceName": {
             "type": "string",
             "defaultValue": ""
         },
-        "dnsrecordName":{
+        "dnsrecordName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "cosmosdbLocation": {
             "type": "string",
             "defaultValue": ""
         }
     },
     "variables": {
+        "cosmosdbAdditionalArecordName": "[toLower(concat(parameters('dnsrecordName'), '-', parameters('cosmosdbLocation')))]"
     },
     "resources": [
         {
@@ -64,14 +65,32 @@
                         "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     ],
                     "properties": {
-                      "ttl": 3600,
-                      "aRecords": [
-                        {
-                          "ipv4Address": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('NetworkInterfaceName')), '2021-05-01').ipConfigurations[0].properties.privateIPAddress]"
-                        }
-                      ]
+                        "ttl": 3600,
+                        "aRecords": [
+                            {
+                                "ipv4Address": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('NetworkInterfaceName')), '2021-05-01').ipConfigurations[0].properties.privateIPAddress]"
+                            }
+                        ]
                     }
-                  }
+                },
+                {
+                 "condition":"[equals(parameters('privateDnsZoneName'), 'privatelink.documents.azure.com')]",
+                    "type": "Microsoft.Network/privateDnsZones/A",
+                    "apiVersion": "2020-06-01",
+                    "name": "[concat(parameters('privateDnsZoneName'), '/', variables('cosmosdbAdditionalArecordName'))]",
+                    "location": "global",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
+                    ],
+                    "properties": {
+                        "ttl": 3600,
+                        "aRecords": [
+                            {
+                                "ipv4Address": "[reference(resourceId('Microsoft.Network/networkInterfaces', parameters('NetworkInterfaceName')), '2021-05-01').ipConfigurations[1].properties.privateIPAddress]"
+                            }
+                        ]
+                    }
+                }
             ]
         }
     ]
