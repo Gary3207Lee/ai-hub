@@ -36,10 +36,6 @@
             "type": "string",
             "defaultValue": ""
         },
-        "apiFQDN":{
-            "type": "string",
-            "defaultValue": ""
-        },
         "storageAccountURI":{
             "type": "string",
             "defaultValue": ""
