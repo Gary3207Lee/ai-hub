@@ -3034,7 +3034,7 @@
                                 "visible": true,
                                 "options": {
                                     "style": "Warning",
-                                    "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
+                                    "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Azure Container Apps. Ensure you have connectivity to the other services you are creating."
                                 }
                             },
                             {
