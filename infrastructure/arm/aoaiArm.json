@@ -810,9 +810,10 @@
             "ecommIndexerJobAcaRbacForAISearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-jobaca-rbac-for-aisearchcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAPIAcaRbacForAISearchIndexReaderDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-searchcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommAPIAcaRbacForOpenAIContributorDeploymentName": "[take(concat(parameters('prefix'), '-apiaca-rbac-for-openaicontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommWebJobRbacForStorageContributorDeploymentName": "[take(concat(parameters('prefix'), '-webjob-rbac-for-stgdatacontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommWebJobRbacForStorageDataContributorDeploymentName": "[take(concat(parameters('prefix'), '-webjob-rbac-for-stgdatacontributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "ecommStaticWebAppStorageDeploymentName": "[take(concat(parameters('prefix'), '-staticwebapp-storage-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "ecommStaticWebAppJobDeploymentName": "[take(concat(parameters('prefix'), '-staticwebapp-job-', parameters('location'), variables('deploymentSuffix')), 64)]"
+            "ecommStaticWebAppJobDeploymentName": "[take(concat(parameters('prefix'), '-staticwebapp-job-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "ecommWebJobRbacForStorageContributorDeploymentName": "[take(concat(parameters('prefix'), '-webjob-rbac-for-stgaccntcontributor-', parameters('location'), variables('deploymentSuffix')), 64)]"
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -823,10 +824,10 @@
         },
         "ecommSampleVariables":{
             "ecommCosmosDatabaseName": "catalogDb",
-            "staticWebAppContainerName": "product-search-webapp",
-            "apiContainerImageName": "belstarr/ai-search-api:v0.0.20",
-            "indexerJobContainerImageName": "belstarr/ai-search-python-job:v0.0.20",
-            "staticWebAppJobContainerImageName": "belstarr/ai-search-spa-job:v0.0.19",
+            "staticWebAppContainerName": "product-images",
+            "apiContainerImageName": "belstarr/ai-search-api:v0.0.21",
+            "indexerJobContainerImageName": "belstarr/ai-search-python-job:v0.0.21",
+            "staticWebAppJobContainerImageName": "belstarr/ai-search-spa-job:v0.0.21",
             "ecommAISearchIndexName": "contoso-product-index",
             "ecommAISearchSemanticConfigName":"product-semantic-config",
             "ecommVectorSearchKNearest":"3"
@@ -1940,7 +1941,7 @@
 
         //ecomm: Retrieving objectId of the ACA Index Job System Identity
         {
-            "condition": "[and(equals(parameters('aiSampleAppDeployment'), 'No'), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaIndexerJobObjectIdDeploymentName]",
@@ -1969,7 +1970,7 @@
 
         //ecomm: Retrieving objectId of the ACA API App System Identity
         {
-            "condition": "[and(equals(parameters('aiSampleAppDeployment'), 'No'), equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName]",
@@ -2017,7 +2018,7 @@
                 },
                 "parameters": {
                     "resourceId": {
-                        "value": "[variables('resourceIds').ecommAcaIndexerJobResourceId]"
+                        "value": "[variables('resourceIds').ecommAcaWebJobResourceId]"
                     },
                     "apiVersion": {
                         "value": "[variables('apiVersions').acaApps]"
@@ -2445,7 +2446,7 @@
             }
         },
 
-        //ecommRbac: Creating Role Assignment for job aca on CosmosDB using CosmosDB Account Reader role for 'ecomm' use case
+        //ecommRbac: Creating Role Assignment for indexer job aca on CosmosDB using CosmosDB Account Reader role for 'ecomm' use case
         {
             "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
@@ -2476,7 +2477,7 @@
             }
         },
 
-        //ecommRbac: Creating Role Assignment for job aca on CosmosDB using CosmosDB Data Contributor role for 'ecomm' use case
+        //ecommRbac: Creating Role Assignment for indexer job aca on CosmosDB using CosmosDB Data Contributor role for 'ecomm' use case
         {
             "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
@@ -2507,7 +2508,7 @@
             }
         },
 
-        //ecommRbac: Creating Role Assignment for job aca on AI Search contributor for 'ecomm' use case
+        //ecommRbac: Creating Role Assignment for indexer job aca on AI Search contributor for 'ecomm' use case
         {
             "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
@@ -2605,11 +2606,11 @@
             "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').ecommWebJobRbacForStorageContributorDeploymentName]",
+            "name": "[variables('deploymentNames').ecommWebJobRbacForStorageDataContributorDeploymentName]",
             "resourceGroup": "[variables('resourceNames').rgName]",
             "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaAPIObjectIdDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiFinalDeploymentName)]"
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaWebJobObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommStaticWebAppStorageDeploymentName)]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -2620,6 +2621,37 @@
                 "parameters": {
                     "roleDefinitionId": {
                         "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(equals(parameters('aiRbacAuthz'), 'Yes'), reference(variables('deploymentNames').rgAzureAcaWebJobObjectIdDeploymentName, '2024-03-01').outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+
+        //ecommRbac: Creating Role Assignment for Web Job aca on Azure Storage Account Contributor for 'ecomm' use case
+        {
+            "condition": "[and(equals(parameters('aiDeployOption'), 'PoC'), equals(parameters('aiUseCaseSelection'), 'ecomm'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').ecommWebJobRbacForStorageContributorDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureAcaWebJobObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').ecommStaticWebAppStorageDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "17d1049b-9a84-46fb-8f53-869881c3d3ab"
                     },
                     "principalType": {
                         "value": "ServicePrincipal"

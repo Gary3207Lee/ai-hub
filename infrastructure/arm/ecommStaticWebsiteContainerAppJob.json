@@ -103,7 +103,7 @@
                                     "env": [
                                       {
                                         "name": "AZURE_SUBSCRIPTION_ID",
-                                        "value": "[parameters('subscriptionId')]"
+                                        "value": "[subscription().subscriptionId]"
                                       },
                                       {
                                         "name": "AZURE_CLIENT_ID",
@@ -114,7 +114,7 @@
                                         "value": "[parameters('storageAccountName')]"
                                       },
                                       {
-                                        "name": "API_URL",
+                                        "name": "API_URI",
                                         "value": "[reference(variables('containerAppResourceId'), '2022-03-01').configuration.ingress.fqdn]"
                                       },
                                       {
